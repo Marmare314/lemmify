@@ -74,3 +74,11 @@
     counter.update((..) => current-state)
   })
 }
+
+// Create a concatenated function from
+// a list of functions (with one argument)
+// starting with the last function:
+// concat-fold((f1, f2, fn))(x) = f1(f2(f3(x)))
+#let concat-fold(functions) = {
+  functions.fold((c => c), (f, g) => (c => f(g(c))))
+}

@@ -105,7 +105,7 @@ By varying the `group` parameter you can create independently numbered theorems:
 
 ## Documentation
 
-The two most important functions are
+The two most important functions are:
 
 `default-theorems`: Create a default set of theorems
 based on the given language and styling.
@@ -127,27 +127,6 @@ The simple styles use `thm-type` as the argument (ie
 - `thm-styling`, `thm-numbering`, 
 `ref-styling`, `ref-numbering`: Styling which to apply
 to all subgroups.
-
-<!-- There is only one function that was not mentioned yet.
-
-`thm-group-styling`: Used to apply a base styling to the
-theorem group.
-
-It takes a `group` identifier and optional
-styling parameters `thm-styling`, `thm-numbering`, `ref-styling`
-and `max-reset-level`.
-The `max-reset-level` parameter specifies up to what heading level
-the group counter is reset. The other parameters will be explained 
-below. Returns a function which applies the specified styling to its
-content.
-
---- -->
-
-<!-- It also takes a `group` and optional styling
-parameters `thm-styling`, `thm-numbering`, `ref-styling`.
-But there is also the `subgroup-map` parameter, which
-should specify a map `(group-id: arg)`. Then `arg` will be
-passed to `thm-styling`. -->
 
 ---
 
@@ -176,11 +155,6 @@ needs to be shown.
 at headings of at most the specified level. Returns a rule
 that needs to be shown.
 
-<!-- Also takes `group`, `thm-styling`, `thm-numbering`,
-`ref-styling` and `max-reset-level`. There is a special `proof-styling`
-parameter which will be only be applied to proofs. The `lang` parameter
-is used to specify the display language of the theorems. -->
-
 ## Styling
 If possible the best way to adapt the look of theorems is to use show
 rules as shown above, but this is not always possible.
@@ -196,6 +170,7 @@ Below only the `arg` will be specified.
 Pre-defined functions
 - `thm-style-simple(thm-type)`: **thm-type num** _(name)_ body
 - `thm-style-proof(thm-type)`: **thm-type num** _(name)_ body □
+- `thm-style-reversed(thm-type)`: **num thm-type** _(name)_ body
 
 ---
 

@@ -1,4 +1,5 @@
 #import "util/util.typ": *
+#import "util/styles.typ": *
 
 // Transform theorem function into
 // proof function. That is decrease
@@ -23,14 +24,6 @@
 // Reset theorem group counter to zero.
 #let thm-reset-counter(group) = {
   counter(thm-selector(group)).update(c => 0)
-}
-
-// Create a concatenated function from
-// a list of functions (with one argument)
-// starting with the last function:
-// concat-fold((f1, f2, fn))(x) = f1(f2(f3(x)))
-#let concat-fold(functions) = {
-  functions.fold((c => c), (f, g) => (c => f(g(c))))
 }
 
 // Reset counter of specified theorem group
@@ -60,95 +53,6 @@
   show: concat-fold(rules)
   content
 }
-
-// Numbering function which combines
-// heading number and theorem number
-// with a dot: 1.1 and 2 -> 1.1.2
-#let thm-numbering-heading(fig) = {
-  if fig.numbering != none {
-    display-counter-at(fig.location(), counter(heading))
-    "."
-    numbering(fig.numbering, ..fig.counter.at(fig.location()))
-  }
-}
-
-// Numbering function which only
-// returns the theorem number.
-#let thm-numbering-linear(fig) = {
-  if fig.numbering != none {
-    numbering(fig.numbering, ..fig.counter.at(fig.location()))
-  }
-}
-
-// Numbering function which takes
-// the theorem number of the last
-// theorem, but does not return it.
-#let thm-numbering-proof(fig) = {
-  if fig.numbering != none {
-    fig.counter.update(n => n - 1)
-  }
-}
-
-// Simple theorem style:
-// thm-type n (name) body
-#let thm-style-simple(
-  thm-type,
-  name,
-  number,
-  body
-) = block[#{
-  strong(thm-type) + " "
-  if number != none {
-    strong(number) + " "
-  }
-
-  if name != none {
-    emph[(#name)] + " "
-  }
-  " " + body
-}]
-
-// Simple proof style:
-// thm-type n (name) body □
-#let thm-style-proof(
-  thm-type,
-  name,
-  number,
-  body
-) = block[#{
-  strong(thm-type) + " "
-  if number != none {
-    strong(number) + " "
-  }
-
-  if name != none {
-    emph[(#name)] + " "
-  }
-  " " + body + h(1fr) + $square$
-}]
-
-// Basic theorem reference style:
-// @thm -> thm-type n
-// @thm[X] -> X n
-// where n is the numbering specified
-// by the numbering function
-#let thm-ref-style-simple(
-  thm-type,
-  thm-numbering,
-  ref
-) = link(ref.target, box[#{
-  assert(
-    ref.element.numbering != none,
-    message: "cannot reference theorem without numbering"
-  )
-
-  if ref.citation.supplement != none {
-    ref.citation.supplement
-  } else {
-    thm-type
-  }
-  " " + thm-numbering(ref.element)
-}])
 
 // Creates new theorem functions and
 // a styling rule from a mapping (subgroup: args)
@@ -252,7 +156,7 @@
     ..theorems,
     proof: use-proof-numbering(proof),
     rules: concat-fold((
-      thm-reset-on-heading.with(group, max-reset-level),
+      thm-reset-counter-heading.with(group, max-reset-level),
       rules-theorems,
       rules-proof
     ))
