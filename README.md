@@ -182,7 +182,8 @@ Pre-defined functions: (Assume heading is 1.1 and theorem count is 2)
 - `thm-numbering-linear`: 2
 - `thm-numbering-proof`: No visible content is returned, but the
 counter is reduced by 1 (so that the proof keeps the same count as
-the theorem).
+the theorem). Useful in combination with `use-proof-numbering`
+to create theorems that reference the previous theorem (like proofs).
 
 ---
 
