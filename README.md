@@ -1,6 +1,6 @@
-# Theoremify
+# Lemmify
 
-Theoremify is a library for typesetting mathematical
+Lemmify is a library for typesetting mathematical
 theorems in typst. It aims to be easy to use while
 trying to be as flexible and idiomatic as possible.
 This means that the interface might change with updates
@@ -9,11 +9,11 @@ are introduced). But no functionality should be lost.
 
 ## Basic Usage
 
-To get started with Theoremify, follow these steps:
+To get started with Lemmify, follow these steps:
 
-1. Import the Theoremify library:
+1. Import the Lemmify library:
 ```typst
-#import "@preview/theoremify:0.1.0": *
+#import "@preview/lemmify:0.1.0": *
 ```
 
 2. Define the default styling for a few default theorem types:
