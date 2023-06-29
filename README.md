@@ -19,8 +19,8 @@ To get started with Theoremify, follow these steps:
 2. Define the default styling for a few default theorem types:
 ```typst
 #let (
-  theorem, lemma, corollary
-  remark, proposition, example
+  theorem, lemma, corollary,
+  remark, proposition, example,
   proof, rules: thm-rules
 ) = default-theorems("thm-group", lang: "en")
 ```
@@ -43,9 +43,9 @@ To get started with Theoremify, follow these steps:
 @proof @thm[Some thoerem]
 ```
 
-5. Customize the styling further using show rules. For example, to add a red box around examples:
+5. Customize the styling further using show rules. For example, to add a red box around proofs:
 ```
-#show thm-selector("thm-group", "example"): it => box(
+#show thm-selector("thm-group", subgroup: "proof"): it => box(
   it,
   stroke: red + 1pt,
   inset: 1em
@@ -96,7 +96,7 @@ the newly created theorem does not use it.
 You can create a dictionary to make applying it again easier.
 
 ```typst
-let my-styling = (
+#let my-styling = (
   thm-styling: thm-styling-simple,
   thm-numbering: ...,
   ref-styling: ...
@@ -117,7 +117,7 @@ By varying the `group` parameter you can create independently numbered theorems:
 #let (
   definition,
   rules: thm-rules-b
-) = thm-default-style("thm-group-b")
+) = default-theorems("thm-group-b")
 
 #show: thm-rules-a
 #show: thm-rules-b

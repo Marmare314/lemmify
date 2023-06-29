@@ -6,6 +6,7 @@
     "remark": "Remark",
     "proposition": "Proposition",
     "example": "Example",
+    "definition": "Definition",
     "proof": "Proof"
   ),
   "de": (
@@ -15,6 +16,7 @@
     "remark": "Bemerkung",
     "proposition": "Proposition",
     "example": "Beispiel",
+    "definition": "Definition",
     "proof": "Beweis"
   )
 )
