@@ -1,9 +1,13 @@
-#import "../lib.typ": *
+#import "../src/lib.typ": *
 
-#let (theorem, proof, rules: thm-rules) = default-theorems("thm-group")
+#let my-styling = (
+  thm-styling: thm-style-reversed
+)
+
+#let (theorem, proof, rules: thm-rules) = default-theorems("thm-group", ..my-styling)
 #show: thm-rules
 
-#let (note, rules) = new-theorems("thm-group", ("note": "Note"))
+#let (note, rules) = new-theorems("thm-group", ("note": text(red)[Note]), ..my-styling)
 #show: rules
 
 #set heading(numbering: "1.1")

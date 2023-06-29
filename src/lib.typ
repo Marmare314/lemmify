@@ -1,5 +1,6 @@
-#import "util/util.typ": *
-#import "util/styles.typ": *
+#import "util.typ": *
+#import "styles.typ": *
+#import "translations.typ": *
 
 // Transform theorem function into
 // proof function. That is decrease
@@ -115,26 +116,6 @@
   ref-styling: thm-ref-style-simple,
   max-reset-level: 2
 ) = {
-  let translations = (
-    "en": (
-      "theorem": "Theorem",
-      "lemma": "Lemma",
-      "corollary": "Corollary",
-      "remark": "Remark",
-      "proposition": "Proposition",
-      "example": "Example",
-      "proof": "Proof"
-    ),
-    "de": (
-      "theorem": "Satz",
-      "lemma": "Lemma",
-      "corollary": "Korollar",
-      "remark": "Bemerkung",
-      "proposition": "Proposition",
-      "example": "Beispiel",
-      "proof": "Beweis"
-    )
-  )
   let (proof, ..subgroup-map) = translations.at(lang)
 
   let (rules: rules-theorems, ..theorems) = new-theorems(

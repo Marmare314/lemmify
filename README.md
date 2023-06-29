@@ -1,7 +1,11 @@
 # Theoremify
 
 Theoremify is a library for typesetting mathematical
-theorems in typst.
+theorems in typst. It aims to be easy to use while
+trying to be as flexible and idiomatic as possible.
+This means that the interface might change with updates
+to typst (for example if user-defined element functions
+are introduced). But no functionality should be lost.
 
 ## Basic Usage
 
@@ -35,6 +39,8 @@ To get started with Theoremify, follow these steps:
 #proof[
   Complicated proof.
 ]<proof>
+
+@proof @thm[Some thoerem]
 ```
 
 5. Customize the styling further using show rules. For example, to add a red box around examples:
@@ -81,8 +87,22 @@ To create other types (or subgroups) of theorems you can use the
 `new-theorems` function.
 
 ```typst
-#let (note, rules) = new-theorems("thm-group", ("note": "Note"))
+#let (note, rules) = new-theorems("thm-group", ("note": text(red)[Note]))
 #show: rules
+```
+
+If you have already defined custom styling you will notice that
+the newly created theorem does not use it.
+You can create a dictionary to make applying it again easier.
+
+```typst
+let my-styling = (
+  thm-styling: thm-styling-simple,
+  thm-numbering: ...,
+  ref-styling: ...
+)
+
+#let (note, rules) = new-theorems("thm-group", ("note": "Note), ..my-styling)
 ```
 
 ---
@@ -157,7 +177,7 @@ that needs to be shown.
 
 ## Styling
 If possible the best way to adapt the look of theorems is to use show
-rules as shown above, but this is not always possible.
+rules as shown [above](#basic-usage), but this is not always possible.
 For example if we wanted theorems to start
 with `1.1 Theorem` instead of `Theorem 1.1`.
 You can provide the following functions to adapt the look of the theorems.
@@ -195,9 +215,14 @@ Pre-defined functions:
   - `@thm -> thm-type 1.1`
   - `@thm[custom] -> custom 1.1`
 
+---
+`ref-numbering`: Same as `thm-numbering` but only applies
+to the references.
+
 ## Roadmap
 
 - More pre-defined styles.
+  - Referencing theorems by name.
 - Support more languages.
 - Better documentation.
 

@@ -1,7 +1,7 @@
 [package]
 name = "theoremify"
 version = "0.1.0"
-entrypoint = "lib.typ"
+entrypoint = "src/lib.typ"
 authors = ["Marmare314"]
 license = ""
 description = "A library for typesettings mathematical theorems"
