@@ -228,4 +228,4 @@ to the references.
 
 If you are encountering any bugs, have questions or
 are missing features, feel free to open an issue on
-[Github](https://github.com/Marmare314/theoremify).
+[Github](https://github.com/Marmare314/lemmify).
