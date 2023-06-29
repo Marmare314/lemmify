@@ -55,7 +55,10 @@ you can use the `max-reset-level` parameter:
 default-theorems("thm-group", max-reset-level: 0)
 ```
 
-It specifies whats the highest level at which the counter is reset.
+It specifies whats the highest level at which the counter is reset. To manually reset the counter you can use the
+`thm-reset-counter` function.
+
+---
 
 By specifying `numbering: none` you can create unnumbered
 theorems.
@@ -72,12 +75,17 @@ To make all examples unnumbered you could use the following code:
 #let example = example.with(numbering: none)
 ```
 
+---
+
 To create other types (or subgroups) of theorems you can use the
 `new-theorems` function.
 
 ```typst
-#let (note) = new-theorems("thm-group", ("note": "Note"))
+#let (note, rules) = new-theorems("thm-group", ("note": "Note"))
+#show: rules
 ```
+
+---
 
 By varying the `group` parameter you can create independently numbered theorems:
 
@@ -97,6 +105,29 @@ By varying the `group` parameter you can create independently numbered theorems:
 
 ## Documentation
 
+The two most important functions are
+
+`default-theorems`: Create a default set of theorems
+based on the given language and styling.
+- `group`: The group id.
+- `lang`: The language to which the theorems are adapted.
+- `thm-styling`, `thm-numbering`, `ref-styling`: Styling
+parameters are explained in further detail in the
+[Styling](#styling) section.
+- `proof-styling`: Styling which is only applied to proofs.
+- `max-reset-level`: The highest heading level on which
+theorems are still reset.
+
+`new-theorems`: Create custom sets of theorems with
+the given styling.
+- `group`: The group id.
+- `subgroup-map`: Mapping from group id to some argument.
+The simple styles use `thm-type` as the argument (ie
+"Beispiel" or "Example" for group id "example")
+- `thm-styling`, `thm-numbering`, 
+`ref-styling`, `ref-numbering`: Styling which to apply
+to all subgroups.
+
 <!-- There is only one function that was not mentioned yet.
 
 `thm-group-styling`: Used to apply a base styling to the
@@ -112,9 +143,6 @@ content.
 
 --- -->
 
-`new-subgroups`: Used to generate theorem functions and/or apply
-styling to subgroups.
-
 <!-- It also takes a `group` and optional styling
 parameters `thm-styling`, `thm-numbering`, `ref-styling`.
 But there is also the `subgroup-map` parameter, which
@@ -123,7 +151,30 @@ passed to `thm-styling`. -->
 
 ---
 
-`default-theorems`: Used to generate quickly create a default theorem set.
+`use-proof-numbering`: Decreases the numbering of
+a theorem function by one.
+See [Styling](#styling) for more information.
+
+---
+
+`thm-selector`: Returns a selector for all theorems
+of the specified group. If subgroup is specified, only the
+theorems belonging to it will be selected.
+
+---
+
+There are also a few functions to help with resetting counters.
+
+`thm-reset-counter`: Reset theorem group counter manually.
+Returned content needs to added to the document.
+
+`thm-reset-counter-heading-at`: Reset theorem group counter
+at headings of the specified level. Returns a rule that
+needs to be shown.
+
+`thm-reset-counter-heading`: Reset theorem group counter
+at headings of at most the specified level. Returns a rule
+that needs to be shown.
 
 <!-- Also takes `group`, `thm-styling`, `thm-numbering`,
 `ref-styling` and `max-reset-level`. There is a special `proof-styling`
@@ -170,8 +221,10 @@ Pre-defined functions:
 
 ## Roadmap
 
-- More pre-defined styles
-- Support more languages
+- More pre-defined styles.
+- Support more languages.
+- Better documentation.
 
-I'm open to any suggestions on missing features.
-Feel free to open an issue at [...].
+If you are encountering any bugs, have questions or
+are missing features, feel free to open an issue on
+[Github](https://github.com/Marmare314/theoremify).

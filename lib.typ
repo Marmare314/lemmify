@@ -1,37 +1,16 @@
-// TODO: comment
-#let new-thm-func(
-  group,
-  subgroup,
-  numbering: "1"
-) = {
-  return (name: none, numbering: numbering, content) => {
-    figure(
-      content,
-      caption: name,
-      kind: group,
-      supplement: subgroup,
-      numbering: numbering
-    )
-  }
-}
+#import "util/util.typ": *
 
-// TODO: is there any better way to avoid this nameclash?
-// TODO: comment
-#let new-proof-func(
-  group,
-  subgroup,
-  numb: "1"
-) = {
-  return new-thm-func(
-    group,
-    subgroup,
-    numbering: n => numbering(numb, n - 1)
-  )
+// Transform theorem function into
+// proof function. That is decrease
+// the numbering by one.
+#let use-proof-numbering(theorem-func) = {
+  let numb = n => numbering(theorem-func()[].numbering, n - 1)
+  return theorem-func.with(numbering: numb)
 }
 
 // Creates a selector for all theorems of
 // the specified group. If subgroup is
-// specified, only the theorems belonging to
+// specified, only the theorems belonging to it
 // will be selected.
 #let thm-selector(group, subgroup: none) = {
   if subgroup == none {
@@ -39,54 +18,6 @@
   } else {
     figure.where(kind: group, supplement: [#subgroup])
   }
-}
-
-// Applies theorem styling and theorem
-// numbering functions to theorem.
-#let thm-style(
-  thm-styling,
-  thm-numbering,
-  fig
-) = {
-  thm-styling(
-    fig.caption,
-    thm-numbering(fig),
-    fig.body
-  )
-}
-
-// Applies reference styling to the
-// theorems belonging to the specified
-// group/subgroups.
-#let thm-ref-style(
-  group,
-  subgroups: none,
-  ref-styling,
-  content
-) = {
-  show ref: it => {
-    if it.element == none {
-      return it
-    }
-    if it.element.func() != figure {
-      return it
-    }
-    if it.element.kind != group {
-      return it
-    }
-
-    let refd-subgroup = it.element.supplement.text
-    if subgroups == none {
-      ref-styling(it)
-    } else if subgroups == refd-subgroup {
-      ref-styling(it)
-    } else if type(subgroups) == "array" and subgroups.contains(refd-subgroup) {
-      ref-styling(it)
-    } else {
-      it
-    }
-  }
-  content
 }
 
 // Reset theorem group counter to zero.
@@ -102,10 +33,9 @@
   functions.fold((c => c), (f, g) => (c => f(g(c))))
 }
 
-// TODO: rename
 // Reset counter of specified theorem group
 // on headings of the specified level
-#let figure-counter-reset-at(
+#let thm-reset-counter-heading-at(
   group,
   level,
   content
@@ -117,37 +47,19 @@
   content
 }
 
-// TODO: rename
 // Reset counter of specified theorem group
 // on headings with at most the specified level.
-#let thm-reset-on-heading(
+#let thm-reset-counter-heading(
   group,
   max-level,
   content
 ) = {
   let rules = range(1, max-level + 1).map(
-    k => figure-counter-reset-at.with(group, k)
+    k => thm-reset-counter-heading-at.with(group, k)
   )
   show: concat-fold(rules)
   content
 }
-
-// Utility function to display a counter
-// at the given position.
-#let display-counter-at(loc, counter) = {
-  locate(current-loc => {
-    let current-state = counter.at(current-loc)
-    let other-state = counter.at(loc)
-
-    counter.update((..) => other-state)
-    counter.display()
-    counter.update((..) => current-state)
-  })
-}
-
-//
-// Some default styles.
-//
 
 // Numbering function which combines
 // heading number and theorem number
@@ -216,7 +128,7 @@
 }]
 
 // Basic theorem reference style:
-// @thm -> Theorem n
+// @thm -> thm-type n
 // @thm[X] -> X n
 // where n is the numbering specified
 // by the numbering function
@@ -280,8 +192,8 @@
   }
 
   let result = (:)
-  for (sg, _) in subgroup-map {
-    result.insert(sg, new-thm-func(group, sg))
+  for (subgroup, _) in subgroup-map {
+    result.insert(subgroup, new-thm-func(group, subgroup))
   }
   result.insert("rules", rules)
 
@@ -338,7 +250,7 @@
 
   return (
     ..theorems,
-    proof: proof,
+    proof: use-proof-numbering(proof),
     rules: concat-fold((
       thm-reset-on-heading.with(group, max-reset-level),
       rules-theorems,
