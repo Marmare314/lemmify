@@ -64,15 +64,14 @@
 
 // Utility function to display a counter
 // at the given position.
-#let display-counter-at(loc, counter) = {
-  locate(current-loc => {
-    let current-state = counter.at(current-loc)
-    let other-state = counter.at(loc)
-
-    counter.update((..) => other-state)
-    counter.display()
-    counter.update((..) => current-state)
-  })
+#let display-heading-counter-at(loc) = {
+  let locations = query(selector(heading).before(loc), loc)
+  if locations.len() == 0 {
+    [0]
+  } else {
+    let numb = query(selector(heading).before(loc), loc).last().numbering
+    numbering(numb, ..counter(heading).at(loc))
+  }
 }
 
 // Create a concatenated function from

@@ -5,7 +5,7 @@
 // with a dot: 1.1 and 2 -> 1.1.2
 #let thm-numbering-heading(fig) = {
   if fig.numbering != none {
-    display-counter-at(fig.location(), counter(heading))
+    display-heading-counter-at(fig.location())
     "."
     numbering(fig.numbering, ..fig.counter.at(fig.location()))
   }
