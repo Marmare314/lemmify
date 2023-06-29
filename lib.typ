@@ -49,7 +49,6 @@
   fig
 ) = {
   thm-styling(
-    fig.supplement,
     fig.caption,
     thm-numbering(fig),
     fig.body
@@ -95,45 +94,42 @@
   counter(thm-selector(group)).update(c => 0)
 }
 
-#let thm-reset-on-heading = none
-#{
-  // Create a concatenated function from
-  // a list of functions (with one argument)
-  // starting with the last function:
-  // concat-fold((f1, f2, fn))(x) = f1(f2(f3(x)))
-  let concat-fold(functions) = {
-    functions.fold((c => c), (f, g) => (c => f(g(c))))
-  }
+// Create a concatenated function from
+// a list of functions (with one argument)
+// starting with the last function:
+// concat-fold((f1, f2, fn))(x) = f1(f2(f3(x)))
+#let concat-fold(functions) = {
+  functions.fold((c => c), (f, g) => (c => f(g(c))))
+}
 
-  // Reset counter of specified theorem group
-  // on headings of the specified level
-  let figure-counter-reset-at(
-    group,
-    level,
-    content
-  ) = {
-    show heading.where(level: level): it => {
-      thm-reset-counter(group)
-      it
-    }
-    content
+// TODO: rename
+// Reset counter of specified theorem group
+// on headings of the specified level
+#let figure-counter-reset-at(
+  group,
+  level,
+  content
+) = {
+  show heading.where(level: level): it => {
+    thm-reset-counter(group)
+    it
   }
+  content
+}
 
-  // Reset counter of specified theorem group
-  // on headings with at most the specified level.
-  let reset-on-heading(
-    group,
-    max-level,
-    content
-  ) = {
-    let rules = range(1, max-level + 1).map(
-      k => figure-counter-reset-at.with(group, k)
-    )
-    show: concat-fold(rules)
-    content
-  }
-
-  thm-reset-on-heading = reset-on-heading
+// TODO: rename
+// Reset counter of specified theorem group
+// on headings with at most the specified level.
+#let thm-reset-on-heading(
+  group,
+  max-level,
+  content
+) = {
+  let rules = range(1, max-level + 1).map(
+    k => figure-counter-reset-at.with(group, k)
+  )
+  show: concat-fold(rules)
+  content
 }
 
 // Utility function to display a counter
@@ -182,14 +178,14 @@
 }
 
 // Simple theorem style:
-// subgroup n (name) body
+// thm-type n (name) body
 #let thm-style-simple(
-  subgroup,
+  thm-type,
   name,
   number,
   body
 ) = block[#{
-  strong(subgroup) + " "
+  strong(thm-type) + " "
   if number != none {
     strong(number) + " "
   }
@@ -201,14 +197,14 @@
 }]
 
 // Simple proof style:
-// subgroup n (name) body □
+// thm-type n (name) body □
 #let thm-style-proof(
-  subgroup,
+  thm-type,
   name,
   number,
   body
 ) = block[#{
-  strong(subgroup) + " "
+  strong(thm-type) + " "
   if number != none {
     strong(number) + " "
   }
@@ -225,6 +221,7 @@
 // where n is the numbering specified
 // by the numbering function
 #let thm-ref-style-simple(
+  thm-type,
   thm-numbering,
   ref
 ) = link(ref.target, box[#{
@@ -236,17 +233,68 @@
   if ref.citation.supplement != none {
     ref.citation.supplement
   } else {
-    ref.element.supplement
+    thm-type
   }
   " " + thm-numbering(ref.element)
 }])
 
-// TODO: comment
-#let thm-default-style(
-  group: "theorems",
+// Creates new theorem functions and
+// a styling rule from a mapping (subgroup: args)
+// and the style parameters.
+// The args of each subgroup will be passed
+// into thm-styling and ref-styling.
+#let new-theorems(
+  group,
+  subgroup-map,
+  thm-styling: thm-style-simple,
+  thm-numbering: thm-numbering-heading,
+  ref-styling: thm-ref-style-simple,
+  ref-numbering: none
+) = {
+  let helper-rule(subgroup, content) = {
+    show thm-selector(
+      group,
+      subgroup: subgroup
+    ): thm-style.with(
+      thm-styling.with(subgroup-map.at(subgroup)),
+      thm-numbering
+    )
+
+    let numbering = if ref-numbering != none {
+      ref-numbering
+    } else {
+      thm-numbering
+    }
+
+    show: thm-ref-style.with(
+      group,
+      subgroups: subgroup,
+      ref-styling.with(subgroup-map.at(subgroup), numbering)
+    )
+    content
+  }
+
+  let rules(content) = {
+    show: concat-fold(subgroup-map.keys().map(sg => helper-rule.with(sg)))
+    content
+  }
+
+  let result = (:)
+  for (sg, _) in subgroup-map {
+    result.insert(sg, new-thm-func(group, sg))
+  }
+  result.insert("rules", rules)
+
+  return result
+}
+
+// Create a default set of theorems based
+// on the language and given styling.
+#let default-theorems(
+  group,
   lang: "en",
   thm-styling: thm-style-simple,
-  proof-styling: thm-style-simple,
+  proof-styling: thm-style-proof,
   thm-numbering: thm-numbering-heading,
   ref-styling: thm-ref-style-simple,
   max-reset-level: 2
@@ -271,45 +319,30 @@
       "proof": "Beweis"
     )
   )
+  let (proof, ..subgroup-map) = translations.at(lang)
 
-  let rules(content) = {
-    show thm-selector(group): thm-style.with(
-      thm-styling,
-      thm-numbering
-    )
-    show thm-selector(
-      group,
-      subgroup: translations.at(lang).at("proof")
-    ): thm-style.with(
-      thm-styling,
-      thm-numbering-proof
-    )
-    show: thm-ref-style.with(
-      group,
-      ref-styling.with(thm-numbering)
-    )
-    show: thm-reset-on-heading.with(group, max-reset-level)
+  let (rules: rules-theorems, ..theorems) = new-theorems(
+    group,
+    subgroup-map,
+    thm-styling: thm-styling,
+    thm-numbering: thm-numbering
+  )
 
-    content
-  }
-
-  let selector(subgroup: none) = {
-    if subgroup != none {
-      thm-selector(group, subgroup: translations.at(lang).at(subgroup))
-    } else {
-      thm-selector(group)
-    }
-  }
+  let (rules: rules-proof, proof) = new-theorems(
+    group,
+    (proof: translations.at(lang).at("proof")),
+    thm-styling: proof-styling,
+    thm-numbering: thm-numbering-proof,
+    ref-numbering: thm-numbering
+  )
 
   return (
-    theorem: new-thm-func(group, translations.at(lang).at("theorem")),
-    lemma: new-thm-func(group, translations.at(lang).at("lemma")),
-    corollary: new-thm-func(group, translations.at(lang).at("corollary")),
-    remark: new-thm-func(group, translations.at(lang).at("remark")),
-    proposition: new-thm-func(group, translations.at(lang).at("proposition")),
-    example: new-thm-func(group, translations.at(lang).at("example")),
-    proof: new-proof-func(group, translations.at(lang).at("proof")),
-    rules: rules,
-    selector: selector
+    ..theorems,
+    proof: proof,
+    rules: concat-fold((
+      thm-reset-on-heading.with(group, max-reset-level),
+      rules-theorems,
+      rules-proof
+    ))
   )
 }

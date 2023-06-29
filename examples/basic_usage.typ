@@ -1,9 +1,10 @@
 #import "../lib.typ": *
 
-#let (theorem, proof, rules: thm-rules) = thm-default-style()
+#let (theorem, proof, rules: thm-rules) = default-theorems("thm-group")
 #show: thm-rules
 
-#let anmerkung = new-thm-func("theorems", "Anmerkung")
+#let (note, rules) = new-theorems("thm-group", ("note": "Note"))
+#show: rules
 
 #set heading(numbering: "1.1")
 = Section
@@ -30,6 +31,6 @@
   @proof is similar enough that this is clear.
   Or use @related[theorem].
 ]
-#anmerkung[
+#note[
   Test
 ]
