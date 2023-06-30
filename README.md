@@ -123,6 +123,39 @@ By varying the `group` parameter you can create independently numbered theorems:
 #show: thm-rules-b
 ```
 
+## Example
+
+```typst
+#import "@preview/lemmify:0.1.0": *
+
+#let my-thm-style(
+  thm-type, name, number, body
+) = block[#{
+  grid(columns: (1fr, 3fr), column-gutter: 1em)[#{
+    stack(spacing: .5em, strong(thm-type), number, emph(name))
+  }][#body]
+}]
+
+#let my-styling = (
+  thm-styling: my-thm-style
+)
+
+#let (
+  theorem, rules
+) = default-theorems("thm-group", lang: "en", ..my-styling)
+#show: rules
+#show thm-selector("thm-group"): box.with(inset: 1em)
+
+#lorem(20)
+#theorem[
+  #lorem(40)
+]
+#lorem(20)
+#theorem(name: "Some theorem")[
+  #lorem(30)
+]
+```
+
 ## Documentation
 
 The two most important functions are:
@@ -133,7 +166,7 @@ based on the given language and styling.
 - `lang`: The language to which the theorems are adapted.
 - `thm-styling`, `thm-numbering`, `ref-styling`: Styling
 parameters are explained in further detail in the
-[Styling](#styling) section.
+[Styling](#styling-parameters) section.
 - `proof-styling`: Styling which is only applied to proofs.
 - `max-reset-level`: The highest heading level on which
 theorems are still reset.
@@ -175,7 +208,8 @@ needs to be shown.
 at headings of at most the specified level. Returns a rule
 that needs to be shown.
 
-## Styling
+### Styling parameters
+
 If possible the best way to adapt the look of theorems is to use show
 rules as shown [above](#basic-usage), but this is not always possible.
 For example if we wanted theorems to start

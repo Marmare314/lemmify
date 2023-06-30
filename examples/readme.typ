@@ -85,3 +85,34 @@
   #theorem[Test]
   #definition[Test]
 ]
+
+= Full example
+
+#[
+  #let my-thm-style(
+    thm-type, name, number, body
+  ) = block[#{
+    grid(columns: (1fr, 3fr), column-gutter: 1em)[#{
+      stack(spacing: .5em, strong(thm-type), number, emph(name))
+    }][#body]
+  }]
+
+  #let my-styling = (
+    thm-styling: my-thm-style
+  )
+
+  #let (
+    theorem, rules
+  ) = default-theorems("thm-group", lang: "en", ..my-styling)
+  #show: rules
+  #show thm-selector("thm-group"): box.with(inset: 1em)
+
+  #lorem(20)
+  #theorem[
+    #lorem(40)
+  ]
+  #lorem(20)
+  #theorem(name: "Some theorem")[
+    #lorem(30)
+  ]
+]
