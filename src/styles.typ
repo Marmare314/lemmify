@@ -35,7 +35,7 @@
   name,
   number,
   body
-) = block(width: 100%)[#{
+) = block(width: 100%, breakable: true)[#{
   strong(thm-type) + " "
   if number != none {
     strong(number) + " "
@@ -54,7 +54,7 @@
   name,
   number,
   body
-) = block(width: 100%)[#{
+) = block(width: 100%, breakable: true)[#{
   if number != none {
     strong(number) + " "
   }
@@ -73,7 +73,7 @@
   name,
   number,
   body
-) = block(width: 100%)[#{
+) = block(width: 100%, breakable: true)[#{
   strong(thm-type) + " "
   if number != none {
     strong(number) + " "
