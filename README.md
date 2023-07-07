@@ -273,3 +273,9 @@ to the references.
 If you are encountering any bugs, have questions or
 are missing features, feel free to open an issue on
 [Github](https://github.com/Marmare314/lemmify).
+
+## Changelog
+
+- Version 0.1.1
+  - Add dutch translations ([@BroodjeKroepoek](https://github.com/BroodjeKroepoek))
+  - Fix size of default styles and make them breakable
