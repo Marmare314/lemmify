@@ -3,30 +3,26 @@
 // Numbering function which combines
 // heading number and theorem number
 // with a dot: 1.1 and 2 -> 1.1.2
-#let thm-numbering-heading(fig) = {
-  if fig.numbering != none {
-    display-heading-counter-at(fig.location())
+#let thm-numbering-heading(numb, counter, location) = {
+  if numb != none {
+    display-heading-counter-at(location)
     "."
-    numbering(fig.numbering, ..fig.counter.at(fig.location()))
+    if type(numb) != "string" { panic(numb, type(numb), counter.at(location)) }
+    numbering(numb, ..counter.at(location))
   }
 }
 
 // Numbering function which only
 // returns the theorem number.
-#let thm-numbering-linear(fig) = {
-  if fig.numbering != none {
-    numbering(fig.numbering, ..fig.counter.at(fig.location()))
+#let thm-numbering-linear(numb, counter, location) = {
+  if numb != none {
+    numbering(numb, ..counter.at(location))
   }
 }
 
-// Numbering function which takes
-// the theorem number of the last
-// theorem, but does not return it.
-#let thm-numbering-proof(fig) = {
-  if fig.numbering != none {
-    fig.counter.update(n => n - 1)
-  }
-}
+// Numbering which returns nothing
+#let thm-numbering-hidden(numb, counter, location) = {}
+
 
 // Simple theorem style:
 // thm-type n (name) body
@@ -105,5 +101,5 @@
   } else {
     thm-type
   }
-  " " + thm-numbering(ref.element)
+  " " + thm-numbering-style(thm-numbering, ref.element)
 }])

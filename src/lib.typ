@@ -2,26 +2,6 @@
 #import "styles.typ": *
 #import "translations.typ": *
 
-// Transform theorem function into
-// proof function. That is decrease
-// the numbering by one.
-#let use-proof-numbering(theorem-func) = {
-  let numb = n => numbering(theorem-func()[].numbering, n - 1)
-  return theorem-func.with(numbering: numb)
-}
-
-// Creates a selector for all theorems of
-// the specified group. If subgroup is
-// specified, only the theorems belonging to it
-// will be selected.
-#let thm-selector(group, subgroup: none) = {
-  if subgroup == none {
-    figure.where(kind: group)
-  } else {
-    figure.where(kind: group, supplement: [#subgroup])
-  }
-}
-
 // Reset theorem group counter to zero.
 #let thm-reset-counter(group) = {
   counter(thm-selector(group)).update(c => 0)
@@ -129,13 +109,16 @@
     group,
     (proof: translations.at(lang).at("proof")),
     thm-styling: proof-styling,
-    thm-numbering: thm-numbering-proof,
+    thm-numbering: thm-numbering-hidden,
     ref-numbering: thm-numbering
   )
 
   return (
     ..theorems,
-    proof: use-proof-numbering(proof),
+    proof: proof.with(link-to: loc => {
+      let res = query(thm-selector(group).before(loc), loc)
+      if res.len() > 1 { res.at(res.len() - 2) }
+    }),
     rules: concat-fold((
       thm-reset-counter-heading.with(group, max-reset-level),
       rules-theorems,
