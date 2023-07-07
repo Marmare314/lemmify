@@ -18,5 +18,15 @@
     "example": "Beispiel",
     "definition": "Definition",
     "proof": "Beweis"
+  ),
+  "nl": (
+    "theorem": "Stelling",
+    "lemma": "Lemma",
+    "corollary": "Corollarium",
+    "remark": "Opmerking",
+    "proposition": "Propositie",
+    "example": "Voorbeeld",
+    "definition": "Definitie",
+    "proof": "Bewijs"
   )
 )
