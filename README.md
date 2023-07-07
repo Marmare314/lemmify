@@ -13,7 +13,7 @@ To get started with Lemmify, follow these steps:
 
 1. Import the Lemmify library:
 ```typst
-#import "@preview/lemmify:0.1.0": *
+#import "@preview/lemmify:0.1.1": *
 ```
 
 2. Define the default styling for a few default theorem types:
@@ -131,7 +131,7 @@ By varying the `group` parameter you can create independently numbered theorems:
 ## Example
 
 ```typst
-#import "@preview/lemmify:0.1.0": *
+#import "@preview/lemmify:0.1.1": *
 
 #let my-thm-style(
   thm-type, name, number, body
