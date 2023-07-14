@@ -276,6 +276,9 @@ are missing features, feel free to open an issue on
 
 ## Changelog
 
+- Next version
+  - Add italian translations ([@porcaror](https://github.com/porcaror))
+
 - Version 0.1.1
   - Add dutch translations ([@BroodjeKroepoek](https://github.com/BroodjeKroepoek))
   - Add french translations ([@MDLC01](https://github.com/MDLC01))
