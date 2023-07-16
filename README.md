@@ -40,7 +40,7 @@ To get started with Lemmify, follow these steps:
   Complicated proof.
 ]<proof>
 
-@proof @thm[Some thoerem]
+@proof @thm[Some theorem]
 ```
 
 5. Customize the styling further using show rules. For example, to add a red box around proofs:
@@ -66,7 +66,7 @@ you can use the `max-reset-level` parameter:
 default-theorems("thm-group", max-reset-level: 0)
 ```
 
-It specifies whats the highest level at which the counter is reset. To manually reset the counter you can use the
+It specifies the highest level at which the counter is reset. To manually reset the counter you can use the
 `thm-reset-counter` function.
 
 ---
@@ -277,9 +277,9 @@ are missing features, feel free to open an issue on
 ## Changelog
 
 - Next version
-  - Add italian translations ([@porcaror](https://github.com/porcaror))
+  - Add Italian translations ([@porcaror](https://github.com/porcaror))
 
 - Version 0.1.1
-  - Add dutch translations ([@BroodjeKroepoek](https://github.com/BroodjeKroepoek))
-  - Add french translations ([@MDLC01](https://github.com/MDLC01))
+  - Add Dutch translations ([@BroodjeKroepoek](https://github.com/BroodjeKroepoek))
+  - Add French translations ([@MDLC01](https://github.com/MDLC01))
   - Fix size of default styles and make them breakable
