@@ -26,7 +26,7 @@
     Complicated proof.
   ]<proof>
 
-  @proof @thm[Some thoerem]
+  @proof and @thm[theorem]
 ]
 
 = Useful examples
