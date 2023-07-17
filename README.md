@@ -40,7 +40,7 @@ To get started with Lemmify, follow these steps:
   Complicated proof.
 ]<proof>
 
-@proof @thm[Some theorem]
+@proof and @thm[theorem]
 ```
 
 5. Customize the styling further using show rules. For example, to add a red box around proofs:
@@ -54,8 +54,7 @@ To get started with Lemmify, follow these steps:
 
 The result should now look something like this:
 
-![image](https://github.com/Marmare314/lemmify/assets/49279081/090381b2-9906-4b53-ae6c-5382840265de)
-
+![image](https://github.com/Marmare314/lemmify/assets/49279081/ba5e7ed4-336d-4b1a-8470-99fa23bf5119)
 
 ## Useful examples
 
@@ -277,6 +276,7 @@ are missing features, feel free to open an issue on
 ## Changelog
 
 - Next version
+  - Better error message on unnumbered headings
   - Add Italian translations ([@porcaror](https://github.com/porcaror))
 
 - Version 0.1.1
