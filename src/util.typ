@@ -70,7 +70,11 @@
     [0]
   } else {
     let numb = query(selector(heading).before(loc), loc).last().numbering
-    numbering(numb, ..counter(heading).at(loc))
+    if numb != none {
+      numbering(numb, ..counter(heading).at(loc))
+    } else {
+      panic("No numbering set for headings. Try setting the heading numbering or use a different thm-numbering")
+    }
   }
 }
 
