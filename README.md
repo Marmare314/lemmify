@@ -13,7 +13,7 @@ To get started with Lemmify, follow these steps:
 
 1. Import the Lemmify library:
 ```typst
-#import "@preview/lemmify:0.1.1": *
+#import "@preview/lemmify:0.1.2": *
 ```
 
 2. Define the default styling for a few default theorem types:
@@ -275,7 +275,7 @@ are missing features, feel free to open an issue on
 
 ## Changelog
 
-- Next version
+- Version 0.1.2
   - Better error message on unnumbered headings
   - Add Italian translations ([@porcaror](https://github.com/porcaror))
 
