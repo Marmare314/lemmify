@@ -5,8 +5,13 @@
 // with a dot: 1.1 and 2 -> 1.1.2
 #let thm-numbering-heading(fig, max-heading-level: none) = {
   if fig.numbering != none {
-    display-heading-counter-at(fig.location(), max-heading-level)
-    "."
+    let heading-counter = display-heading-counter-at(fig.location(), max-heading-level)
+    if type(heading-counter) == str and heading-counter.ends-with(".") {
+      heading-counter
+    } else {
+      heading-counter
+      "."
+    }
     numbering(fig.numbering, ..fig.counter.at(fig.location()))
   }
 }
