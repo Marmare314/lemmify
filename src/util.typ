@@ -77,6 +77,13 @@
       }
       numbering(numb, ..c)
     } else {
+      let current-level = locations.last().level
+      for h in locations.rev() {
+        if h.level < current-level {
+          display-heading-counter-at(h.location(), max-heading-level)
+          return
+        }
+      }
       panic("No numbering set for headings. Try setting the heading numbering or use a different thm-numbering")
     }
   }
