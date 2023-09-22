@@ -22,7 +22,7 @@
   fig
 ) = {
   thm-styling(
-    fig.caption,
+    fig.caption.body,
     thm-numbering(fig),
     fig.body
   )
