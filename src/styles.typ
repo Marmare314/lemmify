@@ -3,9 +3,9 @@
 // Numbering function which combines
 // heading number and theorem number
 // with a dot: 1.1 and 2 -> 1.1.2
-#let thm-numbering-heading(fig) = {
+#let thm-numbering-heading(fig, max-heading-level: none) = {
   if fig.numbering != none {
-    display-heading-counter-at(fig.location())
+    display-heading-counter-at(fig.location(), max-heading-level)
     "."
     numbering(fig.numbering, ..fig.counter.at(fig.location()))
   }

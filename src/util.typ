@@ -64,14 +64,18 @@
 
 // Utility function to display a counter
 // at the given position.
-#let display-heading-counter-at(loc) = {
+#let display-heading-counter-at(loc, max-heading-level) = {
   let locations = query(selector(heading).before(loc), loc)
   if locations.len() == 0 {
     [0]
   } else {
     let numb = query(selector(heading).before(loc), loc).last().numbering
     if numb != none {
-      numbering(numb, ..counter(heading).at(loc))
+      let c = counter(heading).at(loc)
+      if max-heading-level != none and c.len() > max-heading-level {
+        c = c.slice(0, max-heading-level)
+      }
+      numbering(numb, ..c)
     } else {
       panic("No numbering set for headings. Try setting the heading numbering or use a different thm-numbering")
     }
