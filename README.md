@@ -13,7 +13,7 @@ To get started with Lemmify, follow these steps:
 
 1. Import the Lemmify library:
 ```typst
-#import "@preview/lemmify:0.1.2": *
+#import "@preview/lemmify:0.1.3": *
 ```
 
 2. Define the default styling for a few default theorem types:
@@ -44,7 +44,7 @@ To get started with Lemmify, follow these steps:
 ```
 
 5. Customize the styling further using show rules. For example, to add a red box around proofs:
-```
+```typst
 #show thm-selector("thm-group", subgroup: "proof"): it => box(
   it,
   stroke: red + 1pt,
@@ -102,8 +102,8 @@ You can create a dictionary to make applying it again easier.
 ```typst
 #let my-styling = (
   thm-styling: thm-styling-simple,
-  thm-numbering: ...,
-  ref-styling: ...
+  thm-numbering: ..,
+  ref-styling: ..
 )
 
 #let (note, rules) = new-theorems("thm-group", ("note": "Note), ..my-styling)
@@ -127,10 +127,24 @@ By varying the `group` parameter you can create independently numbered theorems:
 #show: thm-rules-b
 ```
 
+---
+
+To specify parameters of the [styling](#styling-parameters) functions the `.with` function is used.
+
+```typst
+#let (
+  theorem,
+  rules: thm-rules
+) = default-theorems(
+  "thm-group",
+  thm-numbering: thm-numbering-heading.with(max-heading-level: 2)
+)
+```
+
 ## Example
 
 ```typst
-#import "@preview/lemmify:0.1.1": *
+#import "@preview/lemmify:0.1.3": *
 
 #let my-thm-style(
   thm-type, name, number, body
@@ -241,6 +255,8 @@ theorems are numbered.
 
 Pre-defined functions: (Assume heading is 1.1 and theorem count is 2)
 - `thm-numbering-heading`: 1.1.2
+  - `max-heading-level`: only use the a limited number of subheadings. In this
+    case if it is set to `1` the result would be `1.2` instead.
 - `thm-numbering-linear`: 2
 - `thm-numbering-proof`: No visible content is returned, but the
 counter is reduced by 1 (so that the proof keeps the same count as
@@ -274,6 +290,12 @@ are missing features, feel free to open an issue on
 [Github](https://github.com/Marmare314/lemmify).
 
 ## Changelog
+
+- Version 0.1.3
+  - Allow "1.1." numbering style by default
+  - Ignore unnumbered subheadings
+  - Add max-heading-level parameter to thm-numbering-heading
+  - Adapt lemmify to typst version 0.8.0
 
 - Version 0.1.2
   - Better error message on unnumbered headings
