@@ -21,8 +21,13 @@
   thm-numbering,
   fig
 ) = {
+  let body = if fig.has("caption") { 
+    fig.caption
+  } else {
+    []
+  }
   thm-styling(
-    fig.caption.body,
+    body,
     thm-numbering(fig),
     fig.body
   )
