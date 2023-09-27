@@ -1,5 +1,5 @@
-#import "theorem.typ": *
-#import "countable.typ": *
+#import "theorem.typ": resolve-link, get-theorem-parameters, is-theorem
+#import "countable.typ": display-countable
 
 #let numbering-concat(thm, referenced, seperator: ".") = {
   let linked = resolve-link(thm)

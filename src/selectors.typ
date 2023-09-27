@@ -1,18 +1,18 @@
-#import "theorem.typ": *
+#import "types.typ": assert-type, None
 
 #let last-heading(
   ignore-unnumbered: false,
   max-level: none,
   loc
 ) = {
-  assert(type(ignore-unnumbered) == bool) // TODO: add message
-  assert(type(loc) == location)
+  assert-type(ignore-unnumbered, "ignore-unnumbered", bool)
+  assert-type(max-level, "max-level", int, None)
+  assert-type(loc, "loc", location)
 
   let sel = if max-level == none {
     selector(heading)
   } else {
-    assert(type(max-level) == int) // TODO: add message
-    assert(max-level >= 1) // TODO: add message
+    assert(max-level >= 1, message: "max-level should be at least 1")
 
     let s = heading.where(level: 1)
     for i in range(2, max-level + 1) {
@@ -40,6 +40,7 @@
 #let LEMMIFY-DEFAULT-PROOF-GROUP = "LEMMIFY-DEFAULT-PROOF-GROUP"
 
 #let select-group(group) = {
+  assert-type(group, "group", str)
   return figure.where(kind: group)
 }
 
@@ -52,6 +53,8 @@
 }
 
 #let select-kind(kind-func) = {
+  assert-type(kind-func, "kind-func", function)
+
   let params = get-theorem-parameters(kind-func[])
   return figure.where(kind: params.group, supplement: params.kind-name)
 }

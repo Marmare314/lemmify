@@ -1,4 +1,5 @@
-#import "selectors.typ": *
+#import "selectors.typ": select-group
+#import "types.typ": assert-type
 
 // Create a concatenated function from
 // a list of functions (with one argument)
@@ -10,6 +11,7 @@
 
 // Reset theorem group counter to zero.
 #let reset-counter(group) = {
+  assert-type(group, "group", str)
   counter(select-group(group)).update(c => 0)
 }
 
@@ -20,6 +22,10 @@
   max-level,
   content
 ) = {
+  assert-type(group, "group", str)
+  assert-type(max-level, "max-level", int)
+  assert(max-level >= 1, message: "max-level should be at least 1")
+
   let rules = range(1, max-level + 1).map(
     k => content => {
       show heading.where(level: k): it => {

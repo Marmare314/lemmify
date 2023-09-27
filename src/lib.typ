@@ -1,8 +1,8 @@
-#import "theorem.typ": *
-#import "styles.typ": *
+#import "theorem.typ": create-theorem, is-theorem, get-theorem-parameters
+#import "styles.typ": numbering-concat, style-simple, numbering-proof
 #import "translations.typ": get-translation
-#import "selectors.typ": *
-#import "reset-counter.typ": *
+#import "selectors.typ": LEMMIFY-DEFAULT-THEOREM-GROUP, LEMMIFY-DEFAULT-PROOF-GROUP, last-heading
+#import "reset-counter.typ": concat-fold, reset-counter-heading
 #import "types.typ": assert-type, None
 
 #let theorem-kind(
@@ -20,7 +20,6 @@
   assert-type(subnumbering, "subnumbering", function, str, None)
   assert-type(style, "style", function)
 
-  let KIND-ID() = 0
   return (
     name: none,
     link-to: link-to,
@@ -29,7 +28,6 @@
   ) => create-theorem(
     name,
     kind-name,
-    KIND-ID,
     group,
     link-to,
     numbering,

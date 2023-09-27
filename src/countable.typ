@@ -1,4 +1,4 @@
-#import "theorem.typ": *
+#import "theorem.typ": is-theorem, get-theorem-parameters
 
 #let is-countable(c) = {
   return (

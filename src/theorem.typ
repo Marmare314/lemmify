@@ -1,9 +1,10 @@
+#import "types.typ": assert-type, None
+
 #let LEMMIFY-THEOREM-ID() = 0
 
 #let create-theorem(
   name,
   kind-name,
-  kind-id,
   group,
   link-to,
   numbering,
@@ -11,6 +12,15 @@
   style,
   body
 ) = {
+  assert-type(name, "name", str, content, None)
+  assert-type(kind-name, "kind-name", str)
+  assert-type(group, "group", str)
+  assert-type(link-to, "link-to", label, selector, function, None)
+  assert-type(numbering, "numbering", function, None)
+  assert-type(subnumbering, "subnumbering", str, function, None)
+  assert-type(style, "style", function)
+  assert-type(body, "body", str, content)
+
   return figure(
     body,
     caption: name,
@@ -18,7 +28,6 @@
     supplement: kind-name,
     numbering: (..) => (
       type: LEMMIFY-THEOREM-ID,
-      kind-id: kind-id,
       link-to: link-to,
       numbering: numbering,
       subnumbering: subnumbering,
