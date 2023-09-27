@@ -39,5 +39,7 @@ def main():
         os.remove(output_file(name))
     os.rmdir(output_directory())
 
+    exit(not success)
+
 if __name__ == "__main__":
     main()

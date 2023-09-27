@@ -22,8 +22,11 @@ def main():
             print("All references updated successfully ✓")
         else:
             print("Some reference updates failed ✗")
+
+        exit(not success)
     else:
         print("No tests provided. Use either '--all' or provide a list of test names.")
+        exit(1)
     
 
 if __name__ == "__main__":
