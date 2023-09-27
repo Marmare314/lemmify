@@ -1,4 +1,5 @@
 #import "types.typ": assert-type, None
+#import "theorem.typ": get-theorem-parameters
 
 #let last-heading(
   ignore-unnumbered: false,
@@ -56,5 +57,5 @@
   assert-type(kind-func, "kind-func", function)
 
   let params = get-theorem-parameters(kind-func[])
-  return figure.where(kind: params.group, supplement: params.kind-name)
+  return figure.where(kind: params.group, supplement: [#params.kind-name])
 }
