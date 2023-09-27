@@ -48,5 +48,15 @@
     "example": "Voorbeeld",
     "definition": "Definitie",
     "proof": "Bewijs"
+  ),
+  "ru": (
+    "theorem": "Теорема",
+    "lemma": "Лемма",
+    "corollary": "Следствие",
+    "remark": "Замечание",
+    "proposition": "Утверждение",
+    "example": "Пример",
+    "definition": "Определение",
+    "proof": "Доказательство"
   )
 )
