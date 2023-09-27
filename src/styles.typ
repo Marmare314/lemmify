@@ -1,114 +1,60 @@
-#import "util.typ": *
+#import "theorem.typ": *
+#import "countable.typ": *
 
-// Numbering function which combines
-// heading number and theorem number
-// with a dot: 1.1 and 2 -> 1.1.2
-#let thm-numbering-heading(fig, max-heading-level: none) = {
-  if fig.numbering != none {
-    let heading-counter = display-heading-counter-at(fig.location(), max-heading-level)
-    if type(heading-counter) == str and heading-counter.ends-with(".") {
-      heading-counter
-    } else {
-      heading-counter
-      "."
+#let numbering-concat(thm, referenced, seperator: ".") = {
+  let linked = resolve-link(thm)
+  if linked != none {
+    display-countable(linked)
+    seperator
+  }
+  display-countable(thm)
+}
+
+#let numbering-proof(thm, referenced) = {
+  let linked = resolve-link(thm)
+  if referenced and linked != none {
+    assert(is-theorem(linked), message: "can only link proof to theorem")
+    let params = get-theorem-parameters(linked)
+    (params.numbering)(linked, true)
+  }
+}
+
+#let style-simple(thm, qed: false) = {
+  let params = get-theorem-parameters(thm)
+  block(width: 100%, breakable: true, {
+    strong(params.kind-name)
+    if params.numbering != none {
+      " "
+      strong((params.numbering)(thm, false))
     }
-    numbering(fig.numbering, ..fig.counter.at(fig.location()))
-  }
+    if params.name != none {
+      emph(" (" + params.name + ")")
+    }
+    "  "
+    params.body
+    if qed {
+      h(1fr)
+      box(scale(160%, origin: bottom + right, sym.square.stroked))
+    }
+  })
 }
 
-// Numbering function which only
-// returns the theorem number.
-#let thm-numbering-linear(fig) = {
-  if fig.numbering != none {
-    numbering(fig.numbering, ..fig.counter.at(fig.location()))
-  }
+#let style-reversed(thm, qed: false) = {
+  let params = get-theorem-parameters(thm)
+  block(width: 100%, breakable: true, {
+    if params.numbering != none {
+      strong((params.numbering)(thm, false))
+      " "
+    }
+    strong(params.kind-name)
+    if params.name != none {
+      emph(" (" + params.name + ")")
+    }
+    "  "
+    params.body
+    if qed {
+      h(1fr)
+      box(scale(160%, origin: bottom + right, sym.square.stroked))
+    }
+  })
 }
-
-// Numbering function which takes
-// the theorem number of the last
-// theorem, but does not return it.
-#let thm-numbering-proof(fig) = {
-  if fig.numbering != none {
-    fig.counter.update(n => n - 1)
-  }
-}
-
-// Simple theorem style:
-// thm-type n (name) body
-#let thm-style-simple(
-  thm-type,
-  name,
-  number,
-  body
-) = block(width: 100%, breakable: true)[#{
-  strong(thm-type) + " "
-  if number != none {
-    strong(number) + " "
-  }
-
-  if name != none {
-    emph[(#name)] + " "
-  }
-  " " + body
-}]
-
-// Reversed theorem style:
-// n thm-type (name) body
-#let thm-style-reversed(
-  thm-type,
-  name,
-  number,
-  body
-) = block(width: 100%, breakable: true)[#{
-  if number != none {
-    strong(number) + " "
-  }
-  strong(thm-type) + " "
-
-  if name != none {
-    emph[(#name)] + " "
-  }
-  " " + body
-}]
-
-// Simple proof style:
-// thm-type n (name) body □
-#let thm-style-proof(
-  thm-type,
-  name,
-  number,
-  body
-) = block(width: 100%, breakable: true)[#{
-  strong(thm-type) + " "
-  if number != none {
-    strong(number) + " "
-  }
-
-  if name != none {
-    emph[(#name)] + " "
-  }
-  " " + body + h(1fr) + $square$
-}]
-
-// Basic theorem reference style:
-// @thm -> thm-type n
-// @thm[X] -> X n
-// where n is the numbering specified
-// by the numbering function
-#let thm-ref-style-simple(
-  thm-type,
-  thm-numbering,
-  ref
-) = link(ref.target, box[#{
-  assert(
-    ref.element.numbering != none,
-    message: "cannot reference theorem without numbering"
-  )
-
-  if ref.citation.supplement != none {
-    ref.citation.supplement
-  } else {
-    thm-type
-  }
-  " " + thm-numbering(ref.element)
-}])

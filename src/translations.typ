@@ -1,3 +1,5 @@
+#import "types.typ": assert-type
+
 #let translations = (
   "en": (
     "theorem": "Theorem",
@@ -50,3 +52,12 @@
     "proof": "Bewijs"
   )
 )
+
+#let get-translation(lang) = {
+  assert-type(lang, "lang", str)
+  if lang in translations {
+    return translations.at(lang)
+  } else {
+    panic("no translation for the specified language")
+  }
+}
