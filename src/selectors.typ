@@ -1,12 +1,10 @@
 #import "types.typ": assert-type, None
 #import "theorem.typ": get-theorem-parameters
 
-// TODO: implement ignore-unnumbered
-/// Selector-function which selects the last
-/// heading.
+/// Selector-function which selects the last heading.
 ///
-/// - ignore-unnumbered (bool): Use the first heading which is numbered.
-/// - max-level (int, none): TODO
+/// - ignore-unnumbered (bool): Use the last heading which is numbered.
+/// - max-level (int, none): Do not select headings above this level.
 /// - loc (location):
 /// -> heading, none
 #let last-heading(
@@ -31,6 +29,9 @@
   }
   
   let headings = query(sel.before(loc), loc)
+  if headings.len() == 0 {
+    return none
+  }
   if ignore-unnumbered {
     let current-level = headings.last().level
     for h in headings.rev() {
@@ -39,9 +40,7 @@
       }
     }
   } else {
-    if headings.len() > 0 {
-      return headings.last()
-    }
+    return headings.last()
   }
 }
 
