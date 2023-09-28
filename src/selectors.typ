@@ -37,9 +37,6 @@
   }
 }
 
-#let LEMMIFY-DEFAULT-THEOREM-GROUP = "LEMMIFY-DEFAULT-THEOREM-GROUP"
-#let LEMMIFY-DEFAULT-PROOF-GROUP = "LEMMIFY-DEFAULT-PROOF-GROUP"
-
 #let select-group(kind-func) = {
   assert-type(kind-func, "kind-func", function)
   let params = get-theorem-parameters(kind-func[])

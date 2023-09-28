@@ -1,9 +1,12 @@
 #import "theorem.typ": create-theorem, is-theorem, get-theorem-parameters
 #import "styles.typ": numbering-concat, style-simple, numbering-proof
 #import "translations.typ": get-translation
-#import "selectors.typ": LEMMIFY-DEFAULT-THEOREM-GROUP, LEMMIFY-DEFAULT-PROOF-GROUP, last-heading
+#import "selectors.typ": last-heading
 #import "reset-counter.typ": concat-fold, reset-counter-heading
 #import "types.typ": assert-type, None
+
+#let LEMMIFY-DEFAULT-THEOREM-GROUP = "LEMMIFY-DEFAULT-THEOREM-GROUP"
+#let LEMMIFY-DEFAULT-PROOF-GROUP = "LEMMIFY-DEFAULT-PROOF-GROUP"
 
 #let theorem-kind(
   kind-name,
