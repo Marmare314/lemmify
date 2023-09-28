@@ -31,7 +31,7 @@
 #let theorem-kind(
   kind-name,
   group: LEMMIFY-DEFAULT-THEOREM-GROUP,
-  link-to: none,
+  link-to: last-heading,
   numbering: numbering-concat,
   subnumbering: "1",
   style: style-simple
