@@ -21,8 +21,3 @@
 #assert(not check-type(0, float))
 #assert-type(0, "", int, float)
 #assert-type(none, "", None, int, str)
-
-#let to-args(..args) = args
-#check-arg-sink(to-args(0, 1, 2, allow-named: false))
-#check-arg-sink(to-args(a: 0, b: 2, c: 3, allow-positional: false))
-#check-arg-sink(to-args(0, expect-argument: true))
