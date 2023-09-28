@@ -60,7 +60,6 @@
   )
 }
 
-// TODO: handle custom supplements
 /// Apply the style of every `theorem` and handle references to `theorem`s.
 ///
 /// - content (content):
@@ -82,7 +81,7 @@
 
     let params = get-theorem-parameters(it.element)
     link(it.target, {
-      params.kind-name
+      if it.citation.supplement != none { it.citation.supplement } else { params.kind-name }
       " "
       (params.numbering)(it.element, true)
     })

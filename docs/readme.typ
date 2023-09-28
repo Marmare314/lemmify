@@ -105,7 +105,7 @@ The result should now look something like this <export>
 
 == Examples <export>
 
-As another example we will number corollarys after the last theorem. <export>
+This example shows how corollaries can be numbered after the last theorem. <export>
 
 #let example1 = ```
 #let theorem = theorem-kind("Theorem")
@@ -134,8 +134,6 @@ As another example we will number corollarys after the last theorem. <export>
 )
 
 == Custom style example <export>
-
-This examples shows how custom style functions can be defined. <export>
 
 #let example2 = ```typst
 #let my-style-func(thm, is-proof: false) = {

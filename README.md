@@ -53,7 +53,7 @@ The result should now look something like this
 
 ## Examples
 
-As another example we will number corollarys after the last theorem.
+This example shows how corollaries can be numbered after the last theorem.
 ```typst
 #import "@preview/lemmify:0.2.0": theorem-rules, theorem-kind, select-kind, reset-counter
 
@@ -78,7 +78,6 @@ As another example we will number corollarys after the last theorem.
 
 ## Custom style example
 
-This examples shows how custom style functions can be defined.
 ```typst
 #import "@preview/lemmify:0.2.0": default-theorems, get-theorem-parameters
 

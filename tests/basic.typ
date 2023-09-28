@@ -16,7 +16,7 @@
 
 #proof(link-to: <a>)[Short Body]<p>
 
-@a @b @p @z
+@a @b @p @z @a[theorem]
 
 = Heading
 
