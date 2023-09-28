@@ -1,5 +1,6 @@
 #import "theorem.typ": is-theorem, get-theorem-parameters
 
+// TODO: improve error messages
 #let is-countable(c) = {
   return (
     type(c) == content
@@ -44,11 +45,24 @@
   )
 }
 
+#let is-numbered(c) = {
+  if is-countable(c) {
+    let params = get-countable-parameters(c)
+    return params.numbering != none
+  }
+  return false
+}
+
+#let assert-numbered(c) = {
+  assert(
+    is-numbered(c),
+    message: "expected numbered countable"
+  )
+}
+
 #let display-countable(c) = {
-  assert-countable(c)
+  assert-numbered(c)
 
   let params = get-countable-parameters(c)
-  if params.numbering != none {
-    numbering(params.numbering, ..params.counter.at(params.location))
-  }
+  numbering(params.numbering, ..params.counter.at(params.location))
 }

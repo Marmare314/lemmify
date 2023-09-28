@@ -37,6 +37,7 @@
   )
 }
 
+// TODO: handle custom supplements
 #let theorem-rules(content) = {
   show figure: it => if is-theorem(it) {
     let params = get-theorem-parameters(it)
@@ -117,8 +118,8 @@
   let rules = if max-reset-level != none {
     concat-fold((
       theorem-rules,
-      reset-counter-heading.with(group, max-reset-level),
-      reset-counter-heading.with(proof-group, max-reset-level)
+      reset-counter-heading.with(theorems.theorem, max-reset-level),
+      reset-counter-heading.with(theorems.proof, max-reset-level)
     ))
   } else {
     theorem-rules

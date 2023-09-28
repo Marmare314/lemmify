@@ -1,9 +1,10 @@
 #import "theorem.typ": resolve-link, get-theorem-parameters, is-theorem
-#import "countable.typ": display-countable
+#import "countable.typ": display-countable, is-numbered
 
+// TODO: assert type of seperator here
 #let numbering-concat(thm, referenced, seperator: ".") = {
   let linked = resolve-link(thm)
-  if linked != none {
+  if linked != none and is-numbered(linked) {
     display-countable(linked)
     seperator
   }
@@ -19,6 +20,7 @@
   }
 }
 
+// TODO: assert type of qed
 #let style-simple(thm, qed: false) = {
   let params = get-theorem-parameters(thm)
   block(width: 100%, breakable: true, {
@@ -39,6 +41,7 @@
   })
 }
 
+// TODO: assert type of qed
 #let style-reversed(thm, qed: false) = {
   let params = get-theorem-parameters(thm)
   block(width: 100%, breakable: true, {

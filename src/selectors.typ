@@ -40,17 +40,10 @@
 #let LEMMIFY-DEFAULT-THEOREM-GROUP = "LEMMIFY-DEFAULT-THEOREM-GROUP"
 #let LEMMIFY-DEFAULT-PROOF-GROUP = "LEMMIFY-DEFAULT-PROOF-GROUP"
 
-#let select-group(group) = {
-  assert-type(group, "group", str)
-  return figure.where(kind: group)
-}
-
-#let select-default-group() = {
-  return select-group(LEMMIFY-DEFAULT-THEOREM-GROUP)
-}
-
-#let select-default-proof-group() = {
-  return select-group(LEMMIFY-DEFAULT-PROOF-GROUP)
+#let select-group(kind-func) = {
+  assert-type(kind-func, "kind-func", function)
+  let params = get-theorem-parameters(kind-func[])
+  return figure.where(kind: params.group)
 }
 
 #let select-kind(kind-func) = {

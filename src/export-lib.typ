@@ -1,3 +1,5 @@
+#let LEMMIFY-VERSION = "0.2.0"
+
 #let theorem-kind
 #let theorem-rules
 #let default-theorems
@@ -23,22 +25,22 @@
 #let reset-counter
 #let reset-counter-heading
 #{
-  import "reset-counter.typ"
-  reset-counter-heading = reset-counter.reset-counter-heading
-  reset-counter = reset-counter.reset-counter
+  let tmp-reset-counter
+  {
+    import "reset-counter.typ"
+    reset-counter-heading = reset-counter.reset-counter-heading
+    tmp-reset-counter = reset-counter.reset-counter
+  }
+  reset-counter = tmp-reset-counter
 }
 
 #let last-heading
 #let select-group
-#let select-default-group
-#let select-default-proof-group
 #let select-kind
 #{
   import "selectors.typ"
   last-heading = selectors.last-heading
   select-group = selectors.select-group
-  select-default-group = selectors.select-default-group
-  select-default-proof-group = selectors.select-default-proof-group
   select-kind = selectors.select-kind
 }
 
