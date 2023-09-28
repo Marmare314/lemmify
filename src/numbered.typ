@@ -1,6 +1,5 @@
 #import "theorem.typ": is-theorem, get-theorem-parameters
 
-// TODO: improve error messages
 #let is-countable(c) = {
   return (
     type(c) == content
@@ -8,15 +7,15 @@
   )
 }
 
-#let assert-countable(c) = {
+#let assert-countable(arg, arg-name) = {
   assert(
-    is-countable(c),
-    message: "expected heading, page, math.equation or figure, got " + type(c)
+    is-countable(arg),
+    message: "expected " + arg-name + "to be one of heading, page, math.equation or figure, but got " + str(type(arg))
   )
 }
 
 #let get-countable-parameters(c) = {
-  assert-countable(c)
+  assert-countable(c, "c")
 
   let counter = if c.func() == heading {
     counter(heading)
@@ -45,24 +44,36 @@
   )
 }
 
-#let is-numbered(c) = {
-  if is-countable(c) {
-    let params = get-countable-parameters(c)
+/// Check if argument is numbered.
+/// That means it is one of
+/// `heading`, `page`, `math.equation` or `figure`
+/// and its numbering is not `none`.
+///
+/// - n (any):
+/// -> bool
+#let is-numbered(n) = {
+  if is-countable(n) {
+    let params = get-countable-parameters(n)
     return params.numbering != none
   }
   return false
 }
 
-#let assert-numbered(c) = {
+#let assert-numbered(arg, arg-name) = {
   assert(
-    is-numbered(c),
-    message: "expected numbered countable"
+    is-numbered(arg),
+    message: "expected " + arg-name + " to be numbered, but got " + str(type(arg))
   )
 }
 
-#let display-countable(c) = {
-  assert-numbered(c)
+/// Display the numbering of the argument
+/// at its location.
+///
+/// - n (numbered):
+/// -> content
+#let display-numbered(n) = {
+  assert-numbered(n, "n")
 
-  let params = get-countable-parameters(c)
+  let params = get-countable-parameters(n)
   numbering(params.numbering, ..params.counter.at(params.location))
 }

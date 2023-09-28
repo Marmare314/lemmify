@@ -75,6 +75,9 @@ As another example we will number corollarys after the last theorem.
 
 
 ![image](docs/images/image_1.png)
+
+## Custom style example
+
 This examples shows how custom style functions can be defined.
 ```typst
 #import "@preview/lemmify:0.2.0": default-theorems, get-theorem-parameters

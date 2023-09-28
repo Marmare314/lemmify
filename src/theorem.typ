@@ -36,6 +36,10 @@
   )
 }
 
+/// Check if argument is of type theorem.
+///
+/// - c (any):
+/// -> bool
 #let is-theorem(c) = {
   if (
     type(c) == content
@@ -50,12 +54,23 @@
   }
 }
 
-#let assert-theorem(c) = {
-  assert(is-theorem(c), message: "expected theorem, but got " + type(c))
+#let assert-theorem(arg, arg-name) = {
+  assert(
+    is-theorem(arg),
+    message: "expected " + arg-name + " to be of type theorem, but got " + str(type(arg))
+  )
 }
 
+/// Extract theorem parameters from figure.
+/// Returns a dictionary of the form
+/// (body, group, kind-name,
+///  name, link-to, numbering, 
+///  subnumbering, style).
+///
+/// - thm (theorem):
+/// -> dictionary
 #let get-theorem-parameters(thm) = {
-  assert-theorem(thm)
+  assert-theorem(thm, "thm")
   let (type, ..hidden-params) = (thm.numbering)()
   return (
     body: thm.body,
@@ -66,6 +81,11 @@
   )
 }
 
+/// Return the content that is linked
+/// to the theorem.
+///
+/// - thm (theorem):
+/// -> content
 #let resolve-link(thm) = {
   let (link-to,) = get-theorem-parameters(thm)
   if type(link-to) == label or type(link-to) == selector {

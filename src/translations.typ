@@ -58,6 +58,6 @@
   if lang in translations {
     return translations.at(lang)
   } else {
-    panic("no translation for the specified language")
+    panic("no translation available for the specified language")
   }
 }

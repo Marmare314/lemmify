@@ -9,14 +9,23 @@
   functions.fold((c => c), (f, g) => (c => f(g(c))))
 }
 
-// Reset theorem group counter to zero.
+/// Reset theorem group counter to zero.
+/// The result needs to be added to the document.
+///
+/// - kind-func (kind-function): The group is obtained from this kind function.
+/// -> content
 #let reset-counter(kind-func) = {
   assert-type(kind-func, "kind-func", function)
-  counter(select-group(kind-func)).update(c => 0)
+  return counter(select-group(kind-func)).update(c => 0)
 }
 
-// Reset counter of specified theorem group
-// on headings with at most the specified level.
+/// Reset counter of theorem group
+/// on headings with at most the specified level.
+///
+/// - kind-func (kind-function): The group is obtained from this kind function.
+/// - max-level (int): Should be at least 1.
+/// - content (content):
+/// -> content
 #let reset-counter-heading(
   kind-func,
   max-level,

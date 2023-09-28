@@ -45,25 +45,19 @@
 }
 
 #let is-theorem
-#let assert-theorem
 #let get-theorem-parameters
 #let resolve-link
 #{
   import "theorem.typ"
   is-theorem = theorem.is-theorem
-  assert-theorem = theorem.assert-theorem
   get-theorem-parameters = theorem.get-theorem-parameters
   resolve-link = theorem.resolve-link
 }
 
-#let is-countable
-#let assert-countable
-#let get-countable-parameters
-#let display-countable
+#let is-numbered
+#let display-numbered
 #{
-  import "countable.typ"
-  is-countable = countable.is-countable
-  assert-countable = countable.assert-countable
-  get-countable-parameters = countable.get-countable-parameters
-  display-countable = countable.display-countable
+  import "numbered.typ"
+  is-numbered = numbered.is-numbered
+  display-numbered = numbered.display-numbered
 }

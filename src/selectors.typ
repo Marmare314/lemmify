@@ -1,6 +1,14 @@
 #import "types.typ": assert-type, None
 #import "theorem.typ": get-theorem-parameters
 
+// TODO: implement ignore-unnumbered
+/// Selector-function which selects the last
+/// heading.
+///
+/// - ignore-unnumbered (bool): Use the first heading which is numbered.
+/// - max-level (int, none): TODO
+/// - loc (location):
+/// -> heading, none
 #let last-heading(
   ignore-unnumbered: false,
   max-level: none,
@@ -37,12 +45,24 @@
   }
 }
 
+/// Generate selector that selects all
+/// theorems of the same group as the
+/// argument.
+///
+/// - kind-func (kind-function):
+/// -> selector
 #let select-group(kind-func) = {
   assert-type(kind-func, "kind-func", function)
   let params = get-theorem-parameters(kind-func[])
   return figure.where(kind: params.group)
 }
 
+/// Generate selector that selects only
+/// theorems that were create from
+/// the provided `kind-function`.
+///
+/// - kind-func (kind-function):
+/// -> selector
 #let select-kind(kind-func) = {
   assert-type(kind-func, "kind-func", function)
 

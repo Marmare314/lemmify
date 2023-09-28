@@ -133,6 +133,8 @@ As another example we will number corollarys after the last theorem. <export>
   export-setup: "#set page(width: 300pt, height: auto, margin: 10pt)"
 )
 
+== Custom style example <export>
+
 This examples shows how custom style functions can be defined. <export>
 
 #let example2 = ```typst
@@ -181,6 +183,8 @@ This examples shows how custom style functions can be defined. <export>
   scope: example2-scope,
   export-setup: "#set page(width: 500pt, height: auto, margin: 10pt)"
 )
+
+#include "source_docs.typ"
 
 // If you are encountering any bugs, have questions or <export>
 // are missing features, feel free to open an issue on <export>
