@@ -53,6 +53,28 @@ The result should now look something like this
 
 ## Examples
 
+As another example we will number corollarys after the last theorem.
+```typst
+#import "@preview/lemmify:0.2.0": theorem-rules, theorem-kind, select-kind, reset-counter
+
+#let theorem = theorem-kind("Theorem")
+#let corollary = theorem-kind(
+  "Corollary",
+  group: "CorollaryGroup",
+  link-to: select-kind(theorem)
+)
+#show: theorem-rules
+#show select-kind(theorem): it => {it; reset-counter(corollary)}
+
+#theorem(lorem(5))
+#corollary(lorem(5))
+#corollary(lorem(5))
+#theorem(lorem(5))
+#corollary(lorem(5))
+```
+
+
+![image](docs/images/image_1.png)
 This examples shows how custom style functions can be defined.
 ```typst
 #import "@preview/lemmify:0.2.0": default-theorems, get-theorem-parameters
@@ -92,28 +114,6 @@ This examples shows how custom style functions can be defined.
 #proof[
   #lorem(30)
 ]
-```
-
-
-![image](docs/images/image_1.png)
-As another example we will number corollarys after the last theorem.
-```typst
-#import "@preview/lemmify:0.2.0": theorem-rules, theorem-kind, select-kind, reset-counter
-
-#let theorem = theorem-kind("Theorem")
-#let corollary = theorem-kind(
-  "Corollary",
-  group: "CorollaryGroup",
-  link-to: select-kind(theorem)
-)
-#show: theorem-rules
-#show select-kind(theorem): it => {it; reset-counter(corollary)}
-
-#theorem(lorem(5))
-#corollary(lorem(5))
-#corollary(lorem(5))
-#theorem(lorem(5))
-#corollary(lorem(5))
 ```
 
 

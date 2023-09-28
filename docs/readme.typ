@@ -105,9 +105,37 @@ The result should now look something like this <export>
 
 == Examples <export>
 
+As another example we will number corollarys after the last theorem. <export>
+
+#let example1 = ```
+#let theorem = theorem-kind("Theorem")
+#let corollary = theorem-kind(
+  "Corollary",
+  group: "CorollaryGroup",
+  link-to: select-kind(theorem)
+)
+#show: theorem-rules
+#show select-kind(theorem): it => {it; reset-counter(corollary)}
+
+#theorem(lorem(5))
+#corollary(lorem(5))
+#corollary(lorem(5))
+#theorem(lorem(5))
+#corollary(lorem(5))
+```
+
+#let (example1-scope, example1-with-import) = code-with-import("theorem-rules", "theorem-kind", "select-kind", "reset-counter", code: example1)
+#example1-with-import <export>
+
+#eval-raws(
+  example1,
+  scope: example1-scope,
+  export-setup: "#set page(width: 300pt, height: auto, margin: 10pt)"
+)
+
 This examples shows how custom style functions can be defined. <export>
 
-#let example1 = ```typst
+#let example2 = ```typst
 #let my-style-func(thm, is-proof: false) = {
   let params = get-theorem-parameters(thm)
   let number = (params.numbering)(thm, false)
@@ -145,41 +173,13 @@ This examples shows how custom style functions can be defined. <export>
 ]
 ```
 
-#let (example1-scope, example1-with-import) = code-with-import("default-theorems", "get-theorem-parameters", code: example1)
-#example1-with-import <export>
-
-#eval-raws(
-  example1,
-  scope: example1-scope,
-  export-setup: "#set page(width: 500pt, height: auto, margin: 10pt)"
-)
-
-As another example we will number corollarys after the last theorem. <export>
-
-#let example2 = ```
-#let theorem = theorem-kind("Theorem")
-#let corollary = theorem-kind(
-  "Corollary",
-  group: "CorollaryGroup",
-  link-to: select-kind(theorem)
-)
-#show: theorem-rules
-#show select-kind(theorem): it => {it; reset-counter(corollary)}
-
-#theorem(lorem(5))
-#corollary(lorem(5))
-#corollary(lorem(5))
-#theorem(lorem(5))
-#corollary(lorem(5))
-```
-
-#let (example2-scope, example2-with-import) = code-with-import("theorem-rules", "theorem-kind", "select-kind", "reset-counter", code: example2)
+#let (example2-scope, example2-with-import) = code-with-import("default-theorems", "get-theorem-parameters", code: example2)
 #example2-with-import <export>
 
 #eval-raws(
   example2,
   scope: example2-scope,
-  export-setup: "#set page(width: 300pt, height: auto, margin: 10pt)"
+  export-setup: "#set page(width: 500pt, height: auto, margin: 10pt)"
 )
 
 // If you are encountering any bugs, have questions or <export>
