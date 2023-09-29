@@ -3,7 +3,7 @@
 #import "types.typ": assert-type
 
 /// If the linked content is numbered combine it with the numbering
-/// of the theorem.
+/// of the #ref-type("theorem").
 ///
 /// - thm (theorem):
 /// - referenced (bool):
@@ -18,7 +18,7 @@
   display-numbered(thm)
 }
 
-/// Copy the numbering of a linked `theorem` if referenced.
+/// Copy the numbering of a linked #ref-type("theorem") if referenced.
 /// Otherwise no numbering is returned.
 ///
 /// - thm (theorem):
@@ -57,7 +57,7 @@
   })
 }
 
-/// Reverses numbering and `kind-name`.
+/// Reverses numbering and `kind-name`, otherwise the same as @@style-simple().
 ///
 /// - thm (theorem):
 /// - qed (bool): Select if a box should be shown at the end.

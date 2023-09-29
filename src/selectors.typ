@@ -48,23 +48,23 @@
 /// theorems of the same group as the
 /// argument.
 ///
-/// - kind-func (kind-function):
+/// - thm-func (theorem-function):
 /// -> selector
-#let select-group(kind-func) = {
-  assert-type(kind-func, "kind-func", function)
-  let params = get-theorem-parameters(kind-func[])
+#let select-group(thm-func) = {
+  assert-type(thm-func, "thm-func", function)
+  let params = get-theorem-parameters(thm-func[])
   return figure.where(kind: params.group)
 }
 
 /// Generate selector that selects only
 /// theorems that were create from
-/// the provided `kind-function`.
+/// the #ref-type("theorem-function").
 ///
-/// - kind-func (kind-function):
+/// - thm-func (theorem-function):
 /// -> selector
-#let select-kind(kind-func) = {
-  assert-type(kind-func, "kind-func", function)
+#let select-kind(thm-func) = {
+  assert-type(thm-func, "thm-func", function)
 
-  let params = get-theorem-parameters(kind-func[])
+  let params = get-theorem-parameters(thm-func[])
   return figure.where(kind: params.group, supplement: [#params.kind-name])
 }

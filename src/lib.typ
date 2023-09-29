@@ -8,26 +8,23 @@
 #let LEMMIFY-DEFAULT-THEOREM-GROUP = "LEMMIFY-DEFAULT-THEOREM-GROUP"
 #let LEMMIFY-DEFAULT-PROOF-GROUP = "LEMMIFY-DEFAULT-PROOF-GROUP"
 
-/// Create a new theorem function. The style is only visible
-/// once the `theorem-rules` have been applied.
-/// The generated functions will be referred to as `kind-function`s
-/// and the `figures` created by it will be referred to as `theorem`s.
+/// Creates a new #ref-type("theorem-function").
 ///
-/// - kind-name (str): The name of the theorem kind. It acts
-///                    as an identifier together with `group` when using `select-kind`,
-///                    so it should be unique.
+/// - kind-name (str): The name of the theorem kind. It also acts
+///     as an identifier together with `group` when using `select-kind`,
+///     so it should be unique.
 /// - group (str): The group identifier. Each theorem group shares one counter.
-/// - link-to (label, selector, selector-function, none): Link the `theorem` to some
-///                             other content. See `numbering-concat` for how this is used. For `label`s and `selector`s the last one before the `theorem` is used. `selector-function`s are functions `(location) -> content` which can be used for
-///                              more advanced queries.
-/// - numbering (theorem-numbering-function): A function `(theorem, bool) -> content`.
-///                                           The `bool` argument is true only if
-///                                           the numbering is requested from a reference
-///                                           instead of from the theorem itself (see numbering-proof).
+/// - link-to (label, selector, selector-function, none): This parameter sets
+///     what the #ref-type("theorem")s created by the #ref-type("theorem-function") will be linked to
+///     by default.
+/// - numbering (theorem-numbering-function, none): Specify a default value for
+///     the `numbering` parameter of the #ref-type("theorem-function").
 /// - subnumbering (numbering-function, str, none): The subnumbering is
-///                                   needed to convert the theorems counter to content,
-///                                   which is then used in the `theorem-numbering-function`.
-/// - style (style-function): A function `(thm) -> content` which is used to style the theorem.
+///     needed to convert the #ref-type("theorem")s counter to content,
+///     which is then used in the #ref-type("theorem-numbering-function").
+/// - style (style-function): Specifies how the #ref-type("theorem")s will look. This will only be
+///     visible once the @@theorem-rules() have been applied.
+/// -> theorem-function
 #let theorem-kind(
   kind-name,
   group: LEMMIFY-DEFAULT-THEOREM-GROUP,
@@ -39,7 +36,7 @@
   assert-type(kind-name, "kind-name", str)
   assert-type(group, "group", str)
   assert-type(link-to, "link-to", label, selector, function, None)
-  assert-type(numbering, "numbering", function)
+  assert-type(numbering, "numbering", function, None)
   assert-type(subnumbering, "subnumbering", function, str, None)
   assert-type(style, "style", function)
 
@@ -60,7 +57,7 @@
   )
 }
 
-/// Apply the style of every `theorem` and handle references to `theorem`s.
+/// Apply the style of every #ref-type("theorem") and handle references to #ref-type("theorem")s.
 ///
 /// - content (content):
 /// -> content
@@ -91,17 +88,21 @@
 
 /// Generate a few common theorem kinds in the specified language.
 ///
-/// This function accepts all parameters of `theorem-kind` once for proofs and
+/// Returns a dictionary of the form
+/// `(theorem, lemma, corollary, remark, proposition, example, definition, proof, theorem-rules)`.
+/// The `theorem-rules` can be applied using a show statement. If `max-reset-level` is `none`
+/// it will be the same as @@theorem-rules().
+///
+/// This function accepts all parameters of @@theorem-kind() once for proofs and
 /// once for all kinds except for proofs.
-/// So for information on the missing parameters refer to `theorem-kind`.
 ///
 /// - group (str):
 /// - proof-group (str):
 /// - lang (str): The language in which the theorem kinds are generated.
 /// - style (style-function):
 /// - proof-style (style-function):
-/// - numbering (theorem-numbering-function):
-/// - proof-numbering (theorem-numbering-function):
+/// - numbering (theorem-numbering-function, none):
+/// - proof-numbering (theorem-numbering-function, none):
 /// - link-to (label, selector, selector-function, none):
 /// - proof-link-to (label, selector, selector-function, none):
 /// - subnumbering (numbering-function, str, none):
@@ -128,8 +129,8 @@
   assert-type(lang, "lang", str)
   assert-type(style, "style", function)
   assert-type(proof-style, "proof-style", function)
-  assert-type(numbering, "numbering", function)
-  assert-type(proof-numbering, "proof-numbering", function)
+  assert-type(numbering, "numbering", function, None)
+  assert-type(proof-numbering, "proof-numbering", function, None)
   assert-type(link-to, "link-to", label, selector, function, None)
   assert-type(proof-link-to, "proof-link-to", label, selector, function, None)
   assert-type(subnumbering, "subnumbering", function, str, None)

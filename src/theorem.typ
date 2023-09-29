@@ -36,7 +36,7 @@
   )
 }
 
-/// Check if argument is of type theorem.
+/// Check if argument is #ref-type("theorem").
 ///
 /// - c (any):
 /// -> bool
@@ -62,10 +62,8 @@
 }
 
 /// Extract theorem parameters from figure.
-/// Returns a dictionary of the form
-/// (body, group, kind-name,
-///  name, link-to, numbering, 
-///  subnumbering, style).
+/// Returns a #ref-type("dictionary") of the form
+/// `(body, group, kind-name, name, link-to, numbering, subnumbering, style)`.
 ///
 /// - thm (theorem):
 /// -> dictionary
@@ -81,8 +79,8 @@
   )
 }
 
-/// Return the content that is linked
-/// to the theorem.
+/// Return the #ref-type("content") that is linked
+/// to the #ref-type("theorem").
 ///
 /// - thm (theorem):
 /// -> content

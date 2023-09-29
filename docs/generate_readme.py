@@ -57,13 +57,15 @@ def convert_to_markdown(content):
         elif element["func"] == "text":
             result += element["text"] + "\n"
         elif element["func"] == "raw":
-            result += "```" + element["lang"] + "\n" + element["text"] + "\n" + "```\n\n"
-        elif element["func"] == "metadata":
+            result += "```" + element["lang"] + "\n" + element["text"] + "\n" + "```\n"
+        elif element["func"] == "metadata" and "code" in element["value"]:
             with open(file_name(), mode="w") as file:
                 file.write(element["value"]["code"])
             compile_file()
             result += f"\n![image]({image_name()})\n"
             GENERATED_IMAGE_COUNT += 1
+        elif element["func"] == "metadata" and "text" in element["value"]:
+            result += element["value"]["text"] + "\n"
         elif element["func"] == "enum":
             element = element["children"][0]
             result += str(element["number"]) + ". " + element["body"]["text"] + "\n"

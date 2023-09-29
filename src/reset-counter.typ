@@ -12,33 +12,33 @@
 /// Reset theorem group counter to zero.
 /// The result needs to be added to the document.
 ///
-/// - kind-func (kind-function): The group is obtained from this kind function.
+/// - thm-func (theorem-function): The group is obtained from this argument.
 /// -> content
-#let reset-counter(kind-func) = {
-  assert-type(kind-func, "kind-func", function)
-  return counter(select-group(kind-func)).update(c => 0)
+#let reset-counter(thm-func) = {
+  assert-type(thm-func, "thm-func", function)
+  return counter(select-group(thm-func)).update(c => 0)
 }
 
 /// Reset counter of theorem group
 /// on headings with at most the specified level.
 ///
-/// - kind-func (kind-function): The group is obtained from this kind function.
+/// - thm-func (theorem-function): The group is obtained from this argument.
 /// - max-level (int): Should be at least 1.
 /// - content (content):
 /// -> content
 #let reset-counter-heading(
-  kind-func,
+  thm-func,
   max-level,
   content
 ) = {
-  assert-type(kind-func, "kind-func", function)
+  assert-type(thm-func, "thm-func", function)
   assert-type(max-level, "max-level", int)
   assert(max-level >= 1, message: "max-level should be at least 1")
 
   let rules = range(1, max-level + 1).map(
     k => content => {
       show heading.where(level: k): it => {
-        reset-counter(kind-func)
+        reset-counter(thm-func)
         it
       }
       content

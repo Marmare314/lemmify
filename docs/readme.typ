@@ -36,6 +36,10 @@
   return (scope, code)
 }
 
+#let export-only(text) = [
+  #metadata((text: text)) <export>
+]
+
 #show enum: it => [#it <export>]
 
 = Lemmify <export>
@@ -46,6 +50,8 @@ trying to be as flexible and idiomatic as possible. <export>
 This means that the interface might change with updates to typst <export>
 (for example if user-defined element functions are introduced). <export>
 But no functionality should be lost. <export>
+
+#export-only("\nIf you are encountering any bugs, have questions or are missing features, feel free to open an issue on [GitHub](\"https://github.com/Marmare314/lemmify\").")
 
 == Basic usage <export>
 
@@ -73,10 +79,16 @@ But no functionality should be lost. <export>
 ```
 #step3 <export>
 
-4. Customize the styling using show rules. For example, to add a red box around proofs
+4. Customize the styling using show rules. For example, to add a block around proofs
 
 #let step4 = ```typst
-#show select-kind(proof): box.with(stroke: red + 1pt, inset: 1em)
+#show select-kind(proof): block.with(
+  breakable: true,
+  width: 100%,
+  fill: gray,
+  inset: 1em,
+  radius: 5pt
+)
 ```
 #step4 <export>
 
@@ -86,6 +98,10 @@ But no functionality should be lost. <export>
 #theorem(name: "Some theorem")[
   Theorem content goes here.
 ]<thm>
+
+#theorem(numbering: none)[
+  Another theorem.
+]
 
 #proof(link-to: <thm>)[
   Complicated proof.
@@ -102,6 +118,12 @@ The result should now look something like this <export>
   scope: basic-usage-scope,
   export-setup: "#set page(width: 300pt, height: auto, margin: 10pt)"
 )
+
+The default-theorems function has one more parameter max-reset-level <export>
+which controls on which headings the group counters are reset. <export>
+By default they will be reset on every heading. <export>
+To customize the look and behaviour of the theorems there <export>
+are some more parameters available. <export>
 
 == Examples <export>
 
@@ -183,8 +205,3 @@ This example shows how corollaries can be numbered after the last theorem. <expo
 )
 
 #include "source_docs.typ"
-
-// If you are encountering any bugs, have questions or <export>
-// are missing features, feel free to open an issue on <export>
-// #link("https://github.com/Marmare314/lemmify")[GitHub] <export>
-// . <export>

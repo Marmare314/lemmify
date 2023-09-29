@@ -44,10 +44,7 @@
   )
 }
 
-/// Check if argument is numbered.
-/// That means it is one of
-/// `heading`, `page`, `math.equation` or `figure`
-/// and its numbering is not `none`.
+/// Check if argument is #ref-type("numbered").
 ///
 /// - n (any):
 /// -> bool
