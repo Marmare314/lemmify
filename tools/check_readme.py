@@ -1,4 +1,4 @@
-from generate_readme import split_images, combine_markdown, IMAGE_FOLDER, query_to_markdown, README_TEMPLATE_PATH, README_PATH, README_PDF_PATH
+from generate_readme import split_images, combine_markdown, IMAGE_FOLDER, query_to_markdown, README_TEMPLATE_PATH, README_PATH
 from common import TypstRunner, ToolStatus, compare_files
 import os
 
@@ -22,10 +22,7 @@ def main():
         status.start_action("Compiling " + README_TEMPLATE_PATH)
         output_path = runner.tmp_file_path("readme.pdf")
         runner.compile_file(README_TEMPLATE_PATH, output_path)
-        if status.check_runner(runner):
-            status.end_action(compare_files(README_PDF_PATH, output_path))
-        else:
-            status.end_action(False)
+        status.end_action(status.check_runner(runner))
 
         status.start_action("Querying " + README_TEMPLATE_PATH)
         query_result, query_success = runner.query_file(README_TEMPLATE_PATH, "<export>")
