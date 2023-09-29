@@ -68,7 +68,7 @@ features, feel free to open an issue on
 
 The result should now look something like this:
 
-![image](docs/images/image_0.png)
+![image](docs/images/basic-usage.png)
 
 ## Examples
 
@@ -93,7 +93,7 @@ This example shows how corollaries can be numbered after the last theorem.
 #corollary(lorem(5))
 ```
 
-![image](docs/images/image_1.png)
+![image](docs/images/corollary-numbering-example.png)
 
 ## Custom style example
 
@@ -137,6 +137,6 @@ This example shows how corollaries can be numbered after the last theorem.
 ]
 ```
 
-![image](docs/images/image_2.png)
+![image](docs/images/custom-style-example.png)
 
 For a full documentation of all functions check [readme.pdf](docs/readme.pdf)

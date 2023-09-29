@@ -1,3 +1,2 @@
-tests/tools/__pycache__/
-tests/outputs/
-docs/tmp/
+tools/__pycache__/
+tools/tmp/

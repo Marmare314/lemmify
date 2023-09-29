@@ -10,14 +10,14 @@
   reset-counter: reset-counter
 )
 
-#let export-code(code, setup, imports) = {
+#let export-code(name, code, setup, imports) = {
   imports = "#import \"../../src/export-lib.typ\": " + imports.join(", ")
   code = imports + "\n" + setup + "\n" + code
 
-  [#metadata((code: code)) <generate-image>]
+  [#metadata((code: code, name: name)) <generate-image>]
 }
 
-#let eval-raws(..raws, scope: (:), export-setup: "") = {
+#let eval-raws(..raws, name, scope: (:), export-setup: "") = {
   assert(raws.named().len() == 0)
   let code = raws.pos().map(x => x.text + "\n").sum()
   [
@@ -28,7 +28,7 @@
       eval(code, mode: "markup", scope: scope)
     ) <ignore-content>
   ]
-  export-code(code, export-setup, scope.keys())
+  export-code(name, code, export-setup, scope.keys())
 }
 
 #let code-with-import(..imports, code: raw("")) = {
@@ -97,7 +97,7 @@
     }
   } else if con.func() == metadata {
     if con.has("label") and con.label == <generate-image> {
-      "<GENERATE-IMAGE>" + con.value.code + "</GENERATE-IMAGE>"
+      "<GENERATE-IMAGE:" + con.value.name + ">" + con.value.code + "</GENERATE-IMAGE>"
     } else {
       panic("metadata without generate-image label")
     }
@@ -189,6 +189,7 @@
 
   #eval-raws(
     step2, step3, step4, step5,
+    "basic-usage",
     scope: basic-usage-scope,
     export-setup: "#set page(width: 300pt, height: auto, margin: 10pt)"
   )
@@ -219,6 +220,7 @@
 
   #eval-raws(
     example1,
+    "corollary-numbering-example",
     scope: example1-scope,
     export-setup: "#set page(width: 300pt, height: auto, margin: 10pt)"
   )
@@ -268,6 +270,7 @@
 
   #eval-raws(
     example2,
+    "custom-style-example",
     scope: example2-scope,
     export-setup: "#set page(width: 500pt, height: auto, margin: 10pt)"
   )
