@@ -1,4 +1,4 @@
-# Lemmify
+# lemmify
 
 Lemmify is a library for typesetting mathematical
 theorems in typst. It aims to be easy to use while
@@ -7,15 +7,21 @@ This means that the interface might change with updates to typst
 (for example if user-defined element functions are introduced).
 But no functionality should be lost.
 
+If you are encountering any bugs, have questions or are missing
+features, feel free to open an issue on
+[GitHub](https://github.com/Marmare314/lemmify).
+
 ## Basic usage
 
-1. Import the Lemmify library
+1. Import lemmify:
+
 ```typst
 #import "@preview/lemmify:0.2.0": default-theorems, select-kind
 
 ```
 
-2. Generate some common theorem kinds with pre-defined styling
+2. Generate some common theorem kinds with pre-defined style:
+
 ```typst
 #let (
   theorem, lemma, corollary,
@@ -24,21 +30,34 @@ But no functionality should be lost.
 ) = default-theorems(lang: "en")
 ```
 
-3. Apply the generated styling
+3. Apply the generated style:
+
 ```typst
 #show: theorem-rules
 ```
 
-4. Customize the styling using show rules. For example, to add a red box around proofs
+4. Customize the theorems using show rules. For example, to add a block around proofs:
+
 ```typst
-#show select-kind(proof): box.with(stroke: red + 1pt, inset: 1em)
+#show select-kind(proof): block.with(
+  breakable: true,
+  width: 100%,
+  fill: gray,
+  inset: 1em,
+  radius: 5pt
+)
 ```
 
-5. Create theorems, lemmas, and proofs
+5. Create theorems, lemmas, and proofs:
+
 ```typst
 #theorem(name: "Some theorem")[
   Theorem content goes here.
 ]<thm>
+
+#theorem(numbering: none)[
+  Another theorem.
+]
 
 #proof(link-to: <thm>)[
   Complicated proof.
@@ -47,13 +66,14 @@ But no functionality should be lost.
 @proof and @thm[theorem]
 ```
 
-The result should now look something like this
+The result should now look something like this:
 
 ![image](docs/images/image_0.png)
 
 ## Examples
 
 This example shows how corollaries can be numbered after the last theorem.
+
 ```typst
 #import "@preview/lemmify:0.2.0": theorem-rules, theorem-kind, select-kind, reset-counter
 
@@ -72,7 +92,6 @@ This example shows how corollaries can be numbered after the last theorem.
 #theorem(lorem(5))
 #corollary(lorem(5))
 ```
-
 
 ![image](docs/images/image_1.png)
 
@@ -118,5 +137,6 @@ This example shows how corollaries can be numbered after the last theorem.
 ]
 ```
 
-
 ![image](docs/images/image_2.png)
+
+For a full documentation of all functions check [readme.pdf](docs/readme.pdf)

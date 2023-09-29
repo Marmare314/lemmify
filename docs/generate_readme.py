@@ -13,7 +13,38 @@ def file_name():
 def image_name():
     return os.path.join(IMAGE_FOLDER, "image_" + str(GENERATED_IMAGE_COUNT) + ".png")
 
-def get_content():
+def create_file_folder():
+    if not os.path.exists(TMP_FILE_FOLDER):
+        os.makedirs(TMP_FILE_FOLDER)
+
+def delete_file_folder():
+    for file in os.listdir(TMP_FILE_FOLDER):
+        os.remove(os.path.join(TMP_FILE_FOLDER, file))
+    os.rmdir(TMP_FILE_FOLDER)
+
+def compile_code(code):
+    global GENERATED_IMAGE_COUNT
+
+    current_filename = file_name()
+    current_imagename = image_name()
+    GENERATED_IMAGE_COUNT += 1
+
+    with open(current_filename, mode="w") as file:
+        file.write(code)
+
+    print("Compiling " + current_filename, end="", flush=True)
+    completed_process = subprocess.run(["typst", "compile", current_filename, "--root", ".", current_imagename], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    if completed_process.returncode != 0:
+        print(" ✗")
+        print(completed_process.stderr)
+        print(completed_process.stdout)
+        exit(1)
+    else:
+        print(" ✓")
+
+    return current_imagename
+
+def query_exports():
     print("Querying " + README_FILE_PATH, end="", flush=True)
     completed_process = subprocess.run(["typst", "query", README_FILE_PATH, "--root", ".", "<export>"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     if completed_process.returncode != 0:
@@ -24,58 +55,29 @@ def get_content():
     print(" ✓")
     return completed_process.stdout
 
-def compile_file():
-    print("Compiling " + file_name(), end="", flush=True)
-    completed_process = subprocess.run(["typst", "compile", file_name(), "--root", ".", image_name()], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-    if completed_process.returncode != 0:
-        print(" ✗")
-        print(completed_process.stderr)
-        print(completed_process.stdout)
-        exit(1)
+def exported_markdown():
+    exports = json.loads(query_exports())
+    return "\n".join([e["value"] for e in exports]).lstrip()
+
+def generate_images(markdown):
+    open_tag_index = markdown.find("<GENERATE-IMAGE>")
+    if open_tag_index >= 0:
+        close_tag_index = markdown.find("</GENERATE-IMAGE>")
+        assert close_tag_index >= 0
+
+        before = markdown[:open_tag_index].rstrip() + "\n\n"
+        image_code = markdown[open_tag_index:close_tag_index].removeprefix("<GENERATE-IMAGE>")
+        after = markdown[close_tag_index:].removeprefix("</GENERATE-IMAGE>")
+
+        image_path = compile_code(image_code)
+        return before + f"![image]({image_path})" + generate_images(after)
     else:
-        print(" ✓")
-
-def create_file_folder():
-    if not os.path.exists(TMP_FILE_FOLDER):
-        os.makedirs(TMP_FILE_FOLDER)
-
-def delete_file_folder():
-    for file in os.listdir(TMP_FILE_FOLDER):
-        os.remove(os.path.join(TMP_FILE_FOLDER, file))
-    os.rmdir(TMP_FILE_FOLDER)
-
-def convert_to_markdown(content):
-    global GENERATED_IMAGE_COUNT
-
-    result = ""
-    for element in content:
-        if element["func"] == "heading":
-            if result != "":
-                result += "\n"
-            # assume unnumbered and text-only headings
-            result += "#" * element["level"] + " " + element["body"]["text"] + "\n\n"
-        elif element["func"] == "text":
-            result += element["text"] + "\n"
-        elif element["func"] == "raw":
-            result += "```" + element["lang"] + "\n" + element["text"] + "\n" + "```\n"
-        elif element["func"] == "metadata" and "code" in element["value"]:
-            with open(file_name(), mode="w") as file:
-                file.write(element["value"]["code"])
-            compile_file()
-            result += f"\n![image]({image_name()})\n"
-            GENERATED_IMAGE_COUNT += 1
-        elif element["func"] == "metadata" and "text" in element["value"]:
-            result += element["value"]["text"] + "\n"
-        elif element["func"] == "enum":
-            element = element["children"][0]
-            result += str(element["number"]) + ". " + element["body"]["text"] + "\n"
-
-    return result
+        return markdown
 
 def main():
-    content = json.loads(get_content())
+    markdown = exported_markdown()
     create_file_folder()
-    markdown = convert_to_markdown(content)
+    markdown = generate_images(markdown)
     delete_file_folder()
     with open("README.md", mode="w") as file:
         file.write(markdown)
