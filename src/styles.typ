@@ -1,6 +1,6 @@
 #import "theorem.typ": resolve-link, get-theorem-parameters, is-theorem
 #import "numbered.typ": display-numbered, is-numbered
-#import "types.typ": assert-type
+#import "types.typ": assert-type, None
 
 /// If the linked content is numbered combine it with the numbering
 /// of the #ref-type("theorem").
@@ -32,27 +32,48 @@
   }
 }
 
-/// Simple theorem style. Check the documentation for images.
+/// A box for convenience. (Not a function but a constant.)
+#let qed-box = box(scale(160%, origin: bottom + right, sym.square.stroked))
+
+/// Simple theorem style. The theorem gets represented as a breakable block of the form
+/// `kind-name-style(kind-name) number-style(numbering) name-style(name) seperator body`.
 ///
 /// - thm (theorem):
-/// - qed (bool): Select if a box should be shown at the end.
-#let style-simple(thm, qed: false) = {
-  assert-type(qed, "qed", bool)
+/// - kind-name-style (function): A function `str -> content` to change the look of the `kind-name`.
+/// - number-style (function): A function `content -> content` to change the look of the generated numbering.
+/// - name-style (function): A function `content -> content` to change the look of the `name`.
+/// - seperator (content, str): How to seperate the theorem header and its body.
+/// - qed (content, none): Select what content to show at the end of the theorem.
+#let style-simple(
+  thm,
+  kind-name-style: strong,
+  number-style: strong,
+  name-style: name => emph("(" + name + ")"),
+  seperator: "  ",
+  qed: none
+) = {
+  assert-type(kind-name-style, "kind-name-style", function)
+  assert-type(number-style, "number-style", function)
+  assert-type(name-style, "name-style", function)
+  assert-type(seperator, "seperator", content, str)
+  assert-type(qed, "qed", content, None)
+
   let params = get-theorem-parameters(thm)
   block(width: 100%, breakable: true, {
-    strong(params.kind-name)
+    kind-name-style(params.kind-name)
     if params.numbering != none {
       " "
-      strong((params.numbering)(thm, false))
+      number-style((params.numbering)(thm, false))
     }
     if params.name != none {
-      emph(" (" + params.name + ")")
+      " "
+      name-style(params.name)
     }
-    "  "
+    seperator
     params.body
-    if qed {
+    if qed != none {
       h(1fr)
-      box(scale(160%, origin: bottom + right, sym.square.stroked))
+      qed
     }
   })
 }
@@ -60,9 +81,25 @@
 /// Reverses numbering and `kind-name`, otherwise the same as @@style-simple().
 ///
 /// - thm (theorem):
-/// - qed (bool): Select if a box should be shown at the end.
-#let style-reversed(thm, qed: false) = {
-  assert-type(qed, "qed", bool)
+/// - kind-name-style (function):
+/// - number-style (function):
+/// - name-style (function):
+/// - seperator (content, str):
+/// - qed (content, none):
+#let style-reversed(
+  thm,
+  kind-name-style: strong,
+  number-style: strong,
+  name-style: name => emph("(" + name + ")"),
+  seperator: "  ",
+  qed: none
+) = {
+  assert-type(kind-name-style, "kind-name-style", function)
+  assert-type(number-style, "number-style", function)
+  assert-type(name-style, "name-style", function)
+  assert-type(seperator, "seperator", content, str)
+  assert-type(qed, "qed", content, None)
+
   let params = get-theorem-parameters(thm)
   block(width: 100%, breakable: true, {
     if params.numbering != none {
@@ -75,9 +112,9 @@
     }
     "  "
     params.body
-    if qed {
+    if qed != none {
       h(1fr)
-      box(scale(160%, origin: bottom + right, sym.square.stroked))
+      qed
     }
   })
 }

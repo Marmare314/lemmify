@@ -1,5 +1,5 @@
 #import "theorem.typ": create-theorem, is-theorem, get-theorem-parameters
-#import "styles.typ": numbering-concat, style-simple, numbering-proof
+#import "styles.typ": numbering-concat, style-simple, numbering-proof, qed-box
 #import "translations.typ": get-translation
 #import "selectors.typ": last-heading
 #import "reset-counter.typ": concat-fold, reset-counter-heading
@@ -116,7 +116,7 @@
   proof-group: LEMMIFY-DEFAULT-PROOF-GROUP,
   lang: "en",
   style: style-simple,
-  proof-style: style-simple.with(qed: true),
+  proof-style: style-simple.with(qed: qed-box),
   numbering: numbering-concat,
   proof-numbering: numbering-proof,
   link-to: last-heading,

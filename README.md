@@ -95,45 +95,39 @@ This example shows how corollaries can be numbered after the last theorem.
 
 ![image](docs/images/corollary-numbering-example.png)
 
-## Custom style example
+If the pre-defined styles are not customizable enough you can also provide your own style.
 
 ```typst
 #import "@preview/lemmify:0.2.0": default-theorems, get-theorem-parameters
 
-#let my-style-func(thm, is-proof: false) = {
+#let custom-style(thm) = {
   let params = get-theorem-parameters(thm)
   let number = (params.numbering)(thm, false)
-  let content = grid(
-    columns: (1fr, 3fr),
-    column-gutter: 1em,
-    stack(spacing: .5em, strong(params.kind-name), number, emph(params.name)),
+  block(
+    inset: .5em,
+    fill: gray,
+    {
+      params.kind-name + " "
+      number
+      if params.name != none { ": " + params.name }
+    }
+  )
+  v(0pt, weak: true)
+  block(
+    width: 100%,
+    inset: 1em,
+    stroke: gray + 1pt,
     params.body
   )
-
-  if is-proof {
-    block(inset: 2em, content)
-  } else {
-    block(inset: 1em, block(fill: gray, inset: 1em, radius: 5pt, content))
-  }
 }
 
-#let my-style = (
-  style: my-style-func,
-  proof-style: my-style-func.with(is-proof: true)
-)
-
 #let (
-  theorem, proof, theorem-rules
-) = default-theorems(lang: "en", ..my-style)
+  theorem, theorem-rules
+) = default-theorems(lang: "en", style: custom-style)
 #show: theorem-rules
 
-#lorem(20)
 #theorem(name: "Some theorem")[
   #lorem(40)
-]
-#lorem(20)
-#proof[
-  #lorem(30)
 ]
 ```
 

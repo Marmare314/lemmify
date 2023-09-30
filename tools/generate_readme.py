@@ -59,17 +59,19 @@ def main():
     with TypstRunner() as runner, ToolStatus("Generated readme", "Failed to generate readme") as status:
         status.start_action("Compiling " + README_TEMPLATE_PATH)
         runner.compile_file(README_TEMPLATE_PATH, README_PDF_PATH)
-        status.check_runner(runner)
-        status.end_action(True)
+        status.end_action_assert(status.check_runner(runner))
 
         status.start_action("Querying " + README_TEMPLATE_PATH)
         query_result, query_success = runner.query_file(README_TEMPLATE_PATH, "<export>")
-        status.end_action(query_success)
+        status.end_action_assert(query_success)
 
         markdown_with_tags = query_to_markdown(query_result)
         split_markdown = split_images(markdown_with_tags)
-        markdown = combine_markdown(split_markdown)
         generate_images(split_markdown, runner, status)
+        if not status.only_success():
+            return
+
+        markdown = combine_markdown(split_markdown)
         with open(README_PATH, mode="w") as file:
             file.write(markdown)
 

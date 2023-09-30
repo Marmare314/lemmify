@@ -12,13 +12,7 @@ class ToolStatus:
         self._tool_success = True
         self._action_success = True
 
-    def __enter__(self):
-        return self
-
-    def __exit__(self, exc_type, exc_value, exc_trace):
-        if exc_type is not None:
-            return False
-
+    def _end_tool(self):
         if self._tool_success:
             print(self._msg_success + " ✓")
             sys.exit(0)
@@ -26,13 +20,21 @@ class ToolStatus:
             print(self._msg_fail + " ✗")
             sys.exit(1)
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, exc_trace):
+        if exc_type is not None:
+            return False
+        self._end_tool()
+
     def start_action(self, msg):
         self._action_success = True
         print(msg, end="", flush=True)
 
     def update_action(self, value):
         self._action_success &= value
-        self._tool_success &= self._action_success
+        self._tool_success &= value
         if not value:
             print(" ✗")
 
@@ -48,6 +50,14 @@ class ToolStatus:
         self.update_action(value)
         if self._action_success:
             print(" ✓")
+        return self._action_success
+
+    def end_action_assert(self, value):
+        if not self.end_action(value):
+            self._end_tool()
+
+    def only_success(self):
+        return self._tool_success
 
 class TypstRunner:
     def __init__(self):

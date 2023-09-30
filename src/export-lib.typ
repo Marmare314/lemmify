@@ -14,12 +14,14 @@
 #let numbering-proof
 #let style-reversed
 #let style-simple
+#let qed-box
 #{
   import "styles.typ"
   numbering-concat = styles.numbering-concat
   numbering-proof = styles.numbering-proof
   style-reversed = styles.style-reversed
   style-simple = styles.style-simple
+  qed-box = styles.qed-box
 }
 
 #let reset-counter

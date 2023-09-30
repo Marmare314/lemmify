@@ -22,10 +22,15 @@
   let code = raws.pos().map(x => x.text + "\n").sum()
   [
     #block(
-      fill: gray.lighten(50%),
+      stroke: gray + 1pt,
       inset: 1em,
       radius: 5pt,
-      eval(code, mode: "markup", scope: scope)
+      {
+        eval(code, mode: "markup", scope: scope)
+        let (theorem, proof) = default-theorems()
+        reset-counter(theorem)
+        reset-counter(proof)
+      }
     ) <ignore-content>
   ]
   export-code(name, code, export-setup, scope.keys())
@@ -46,7 +51,7 @@
 }
 
 #let export-only(text) = [
-  assert(type(text) == str)
+  #assert(type(text) == str)
   #metadata(text) <export>
 ]
 
@@ -73,8 +78,10 @@
 
 #let content-to-markdown(con) = {
   assert(type(con) == content)
-  if con.has("children") {
+  if con.has("children") { // check for sequence
     combine-spaces(con).map(content-to-markdown).join("")
+  } else if con.has("child") { // check for styled
+    content-to-markdown(con.child)
   } else if con == [ ] {
     "\n"
   } else if con.func() == heading {
@@ -102,7 +109,7 @@
       panic("metadata without generate-image label")
     }
   } else {
-    panic("conversion to text not implemented for " + repr(con.func()))
+    panic("conversion to text not implemented for " + repr(con.fields()))
   }
 }
 
@@ -111,9 +118,9 @@
   export-only(content-to-markdown(con))
 }
 
-#show raw: block.with(stroke: 1pt + gray, fill: gray.lighten(70%), inset: 1em, width: 100%, radius: 5pt)
-
 #export[
+  #show raw: block.with(stroke: 1pt + gray, fill: gray.lighten(70%), inset: 1em, width: 100%, radius: 5pt)
+
   = lemmify
 
   Lemmify is a library for typesetting mathematical
@@ -125,7 +132,7 @@
 
   If you are encountering any bugs, have questions or are missing
   features, feel free to open an issue on
-  #link("https://github.com/Marmare314/lemmify")[GitHub].
+  #link("https://github.com/Marmare314/lemmify", text(blue.darken(50%))[GitHub]).
 
   == Basic usage
 
@@ -196,9 +203,11 @@
 
   == Examples
 
+  // TODO: example showing style options of default-theorems (proof with )
+
   This example shows how corollaries can be numbered after the last theorem.
 
-  #let example1 = ```
+  #let corollary-example = ```
   #let theorem = theorem-kind("Theorem")
   #let corollary = theorem-kind(
     "Corollary",
@@ -215,63 +224,57 @@
   #corollary(lorem(5))
   ```
 
-  #let (example1-scope, example1-with-import) = code-with-import("theorem-rules", "theorem-kind", "select-kind", "reset-counter", code: example1)
-  #example1-with-import
+  #let (corollary-scope, corollary-with-import) = code-with-import("theorem-rules", "theorem-kind", "select-kind", "reset-counter", code: corollary-example)
+  #corollary-with-import
 
   #eval-raws(
-    example1,
+    corollary-example,
     "corollary-numbering-example",
-    scope: example1-scope,
+    scope: corollary-scope,
     export-setup: "#set page(width: 300pt, height: auto, margin: 10pt)"
   )
 
-  == Custom style example
-
-  #let example2 = ```typst
-  #let my-style-func(thm, is-proof: false) = {
+  If the pre-defined styles are not customizable enough you can also provide your own style.
+  
+  #let style-example = ```typst
+  #let custom-style(thm) = {
     let params = get-theorem-parameters(thm)
     let number = (params.numbering)(thm, false)
-    let content = grid(
-      columns: (1fr, 3fr),
-      column-gutter: 1em,
-      stack(spacing: .5em, strong(params.kind-name), number, emph(params.name)),
+    block(
+      inset: .5em,
+      fill: gray,
+      {
+        params.kind-name + " "
+        number
+        if params.name != none { ": " + params.name }
+      }
+    )
+    v(0pt, weak: true)
+    block(
+      width: 100%,
+      inset: 1em,
+      stroke: gray + 1pt,
       params.body
     )
-
-    if is-proof {
-      block(inset: 2em, content)
-    } else {
-      block(inset: 1em, block(fill: gray, inset: 1em, radius: 5pt, content))
-    }
   }
 
-  #let my-style = (
-    style: my-style-func,
-    proof-style: my-style-func.with(is-proof: true)
-  )
-
   #let (
-    theorem, proof, theorem-rules
-  ) = default-theorems(lang: "en", ..my-style)
+    theorem, theorem-rules
+  ) = default-theorems(lang: "en", style: custom-style)
   #show: theorem-rules
 
-  #lorem(20)
   #theorem(name: "Some theorem")[
     #lorem(40)
   ]
-  #lorem(20)
-  #proof[
-    #lorem(30)
-  ]
   ```
 
-  #let (example2-scope, example2-with-import) = code-with-import("default-theorems", "get-theorem-parameters", code: example2)
-  #example2-with-import
+  #let (style-scope, style-with-import) = code-with-import("default-theorems", "get-theorem-parameters", code: style-example)
+  #style-with-import
 
   #eval-raws(
-    example2,
+    style-example,
     "custom-style-example",
-    scope: example2-scope,
+    scope: style-scope,
     export-setup: "#set page(width: 500pt, height: auto, margin: 10pt)"
   )
 ]

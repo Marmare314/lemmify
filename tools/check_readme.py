@@ -22,11 +22,11 @@ def main():
         status.start_action("Compiling " + README_TEMPLATE_PATH)
         output_path = runner.tmp_file_path("readme.pdf")
         runner.compile_file(README_TEMPLATE_PATH, output_path)
-        status.end_action(status.check_runner(runner))
+        status.end_action_assert(status.check_runner(runner))
 
         status.start_action("Querying " + README_TEMPLATE_PATH)
         query_result, query_success = runner.query_file(README_TEMPLATE_PATH, "<export>")
-        status.end_action(query_success)
+        status.end_action_assert(query_success)
 
         markdown_with_tags = query_to_markdown(query_result)
         split_markdown = split_images(markdown_with_tags)
