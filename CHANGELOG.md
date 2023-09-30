@@ -1,3 +1,11 @@
+. Version 0.2.0
+  - Add type checking to arguments
+  - Add in-source documentation using tidy
+  - Add more examples
+  - Add link-to parameter and refactor code
+  - Add unit tests and CI
+  - Add Russian translations ([@WeetHet](https://github.com/WeetHet))
+
 - Version 0.1.4
   - Fix error on unnamed theorems
 

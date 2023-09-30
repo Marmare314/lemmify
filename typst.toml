@@ -1,8 +1,10 @@
 [package]
 name = "lemmify"
-version = "0.1.4"
-entrypoint = "src/lib.typ"
+version = "0.2.0"
+entrypoint = "src/export-lib.typ"
 authors = ["Marmare314"]
 license = "GPL-3.0-only"
 description = "Theorem typesetting library."
 repository = "https://github.com/Marmare314/lemmify"
+compiler = "0.8.0"
+exclude = ["docs/images/*", "docs/readme.pdf"]
