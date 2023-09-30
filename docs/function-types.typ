@@ -1,6 +1,8 @@
 #let theorem-kind = (link-to: 0, numbering: 0)
 
-/// TODO
+/// The functions that actually create the theorems.
+/// The default values of the arguments are set to the
+/// values provided in @@theorem-kind() or @@default-theorems.
 ///
 /// - name (content, str): The name of the #ref-type("theorem").
 /// - link-to (label, selector, selector-function, none): Link the #ref-type("theorem")
