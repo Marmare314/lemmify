@@ -39,21 +39,17 @@
 
 #let link-color = blue.darken(50%)
 
-#let ref-type(type, text-color: link-color) = {
+#let ref-type(type, color: link-color) = {
   if type in custom-type-colors {
-    link(label(type + "()"), text(text-color, raw(type)))
+    link(label(type + "()"), text(color, raw(type)))
   } else {
-    text(text-color, raw(type))
+    raw(type)
   }
-}
-
-#let show-link(url, txt) = {
-  link(url)[#text(link-color, txt)]
 }
 
 #let show-type(type) = { 
   h(2pt)
-  box(outset: 2pt, fill: get-type-color(type), radius: 2pt, ref-type(type, text-color: black))
+  box(outset: 2pt, fill: get-type-color(type), radius: 2pt, text(black, ref-type(type, color: black)))
   h(2pt)
 }
 
@@ -68,7 +64,6 @@
 #let parse-module-params = (
   scope: (
     ref-type: ref-type,
-    show-link: show-link
   )
 )
 
@@ -87,6 +82,7 @@
 #let theorem-parsed = parse-module(read("../src/theorem.typ"), ..parse-module-params)
 #let function-types-parsed = parse-module(read("function-types.typ"), ..parse-module-params)
 
+#show link: text.with(link-color)
 = Documentation
 
 #show-module(lib-parsed, ..show-module-params)

@@ -14,18 +14,19 @@
 ) = {
   assert-type(ignore-unnumbered, "ignore-unnumbered", bool)
   assert-type(max-level, "max-level", int, None)
+  if max-level != none { assert(max-level >= 0, message: "max-level should be at least 0") }
   assert-type(loc, "loc", location)
 
   let sel = if max-level == none {
     selector(heading)
-  } else {
-    assert(max-level >= 1, message: "max-level should be at least 1")
-
+  } else if max-level > 0 {
     let s = heading.where(level: 1)
     for i in range(2, max-level + 1) {
       s = s.or(heading.where(level: i))
     }
     s
+  } else {
+    heading.where(level: 0) // pretty much impossible
   }
   
   let headings = query(sel.before(loc), loc)

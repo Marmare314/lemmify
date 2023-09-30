@@ -90,8 +90,8 @@
 ///
 /// Returns a dictionary of the form
 /// `(theorem, lemma, corollary, remark, proposition, example, definition, proof, theorem-rules)`.
-/// The `theorem-rules` can be applied using a show statement. If `max-reset-level` is `none`
-/// it will be the same as @@theorem-rules().
+/// The `theorem-rules` can be applied using a show statement. Additionally to showing the theorem
+/// styles and handling references they also reset the counters according to `max-reset-level`
 ///
 /// This function accepts all parameters of @@theorem-kind() once for proofs and
 /// once for all kinds except for proofs.
@@ -163,15 +163,11 @@
     link-to: proof-link-to
   ))
 
-  let rules = if max-reset-level != none {
-    concat-fold((
+  let rules = concat-fold((
       theorem-rules,
       reset-counter-heading.with(theorems.theorem, max-reset-level),
       reset-counter-heading.with(theorems.proof, max-reset-level)
-    ))
-  } else {
-    theorem-rules
-  }
+  ))
   return (
     ..theorems,
     theorem-rules: rules

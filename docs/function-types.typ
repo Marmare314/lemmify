@@ -42,7 +42,7 @@
 #let selector-function(loc) = 0
 
 /// A normal numbering function as described
-/// in the #show-link("https://typst.app/docs/reference/meta/numbering/#parameters-numbering")[typst documentation].
+/// in the #link("https://typst.app/docs/reference/meta/numbering/#parameters-numbering")[typst documentation].
 ///
 /// - ..state (int):
 /// -> content

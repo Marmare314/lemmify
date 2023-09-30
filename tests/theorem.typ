@@ -1,3 +1,0 @@
-// Ref: false
-
-#assert(true)

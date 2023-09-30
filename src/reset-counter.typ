@@ -1,5 +1,5 @@
 #import "selectors.typ": select-group
-#import "types.typ": assert-type
+#import "types.typ": assert-type, None
 
 // Create a concatenated function from
 // a list of functions (with one argument)
@@ -23,7 +23,7 @@
 /// on headings with at most the specified level.
 ///
 /// - thm-func (theorem-function): The group is obtained from this argument.
-/// - max-level (int): Should be at least 1.
+/// - max-level (int, none): Should be at least 1.
 /// - content (content):
 /// -> content
 #let reset-counter-heading(
@@ -32,18 +32,18 @@
   content
 ) = {
   assert-type(thm-func, "thm-func", function)
-  assert-type(max-level, "max-level", int)
-  assert(max-level >= 1, message: "max-level should be at least 1")
+  assert-type(max-level, "max-level", int, None)
+  if max-level != none { assert(max-level >= 0, message: "max-level should be at least 0") }
 
-  let rules = range(1, max-level + 1).map(
-    k => content => {
-      show heading.where(level: k): it => {
-        reset-counter(thm-func)
-        it
-      }
+  if max-level == none {
+    show heading: it => {reset-counter(thm-func); it}
+    content
+  } else {
+    let rules = range(1, max-level + 1).map(k => content => {
+      show heading.where(level: k): it => {reset-counter(thm-func); it}
       content
-    }
-  )
-  show: concat-fold(rules)
-  content
+    })
+    show: concat-fold(rules)
+    content
+  }
 }
