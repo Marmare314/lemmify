@@ -409,7 +409,7 @@
 
   #eval-raws(
     style-example,
-    "custom-style-example",
+    "style-example",
     scope: style-scope,
     export-setup: "#set page(width: 500pt, height: auto, margin: 10pt)"
   )

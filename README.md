@@ -233,7 +233,7 @@ If the pre-defined styles are not customizable enough you can also provide your 
 ]
 ```
 
-![image](docs/images/custom-style-example.png)
+![image](docs/images/style-example.png)
 
 There is one other way to create
 `theorem-function`s:
