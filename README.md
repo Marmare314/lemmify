@@ -13,7 +13,7 @@ To get started with Lemmify, follow these steps:
 
 1. Import the Lemmify library:
 ```typst
-#import "@preview/lemmify:0.1.4": *
+#import "@preview/lemmify:0.1.5": *
 ```
 
 2. Define the default styling for a few default theorem types:
@@ -144,7 +144,7 @@ To specify parameters of the [styling](#styling-parameters) functions the `.with
 ## Example
 
 ```typst
-#import "@preview/lemmify:0.1.4": *
+#import "@preview/lemmify:0.1.5": *
 
 #let my-thm-style(
   thm-type, name, number, body
@@ -290,6 +290,9 @@ are missing features, feel free to open an issue on
 [Github](https://github.com/Marmare314/lemmify).
 
 ## Changelog
+
+- Version 0.1.5
+  - Add Russian translation ([@WeetHet](https://github.com/WeetHet))
 
 - Version 0.1.4
   - Fix error on unnamed theorems
