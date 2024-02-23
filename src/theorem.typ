@@ -10,6 +10,7 @@
   numbering,
   subnumbering,
   style,
+  tags,
   body
 ) = {
   assert-type(name, "name", str, content, None)
@@ -31,6 +32,7 @@
       link-to: link-to,
       numbering: numbering,
       subnumbering: subnumbering,
+      tags: tags,
       style: style
     )
   )
