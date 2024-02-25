@@ -8,6 +8,19 @@
 #let LEMMIFY-DEFAULT-THEOREM-GROUP = "LEMMIFY-DEFAULT-THEOREM-GROUP"
 #let LEMMIFY-DEFAULT-PROOF-GROUP = "LEMMIFY-DEFAULT-PROOF-GROUP"
 
+#let validate-and-extract-tags(tag-defaults, tags-args) = {
+  assert-type(tags-args, "tags", arguments)
+  assert(tags-args.pos() == (), message: "The tags (custom parameters) may not be positional. Yours were " + repr(tags-args.pos()))
+  let tags = tags-args.named()
+
+  for (key, value) in tags {
+    assert(key in tag-defaults, message: "Your tag with the key " + key + "(=" + repr(value) + ") was not expected")
+  }
+
+  return tag-defaults + tags
+}
+
+
 /// Creates a new #ref-type("theorem-function").
 ///
 /// - kind-name (str): The name of the theorem kind. It also acts
@@ -24,6 +37,10 @@
 ///     which is then used in the #ref-type("theorem-numbering-function").
 /// - style (style-function): Specifies how the #ref-type("theorem")s will look. This will only be
 ///     visible once the @@theorem-rules() have been applied.
+/// - tags (dictionary): Tags are optional parameters the author can previde for each instance of a 
+///     theorem in his document separately. A dictionary whose keys are the available tags for this
+///     kind of theorem and the values are the default values for those tags.
+///     Tags are exposed to the styling function through the 'tags'-value of the theorem parameters.
 /// -> theorem-function
 #let theorem-kind(
   kind-name,
@@ -31,7 +48,8 @@
   link-to: last-heading,
   numbering: numbering-concat,
   subnumbering: "1",
-  style: style-simple
+  style: style-simple,
+  tags: (:)
 ) = {
   assert-type(kind-name, "kind-name", str)
   assert-type(group, "group", str)
@@ -39,11 +57,13 @@
   assert-type(numbering, "numbering", function, None)
   assert-type(subnumbering, "subnumbering", function, str, None)
   assert-type(style, "style", function)
+  assert-type(tags, "tag defaults", dictionary)
 
   return (
     name: none,
     link-to: link-to,
     numbering: numbering,
+    ..provided-tags,
     body
   ) => create-theorem(
     name,
@@ -53,6 +73,7 @@
     numbering,
     subnumbering,
     style,
+    validate-and-extract-tags(tags, provided-tags),
     body
   )
 }
@@ -110,6 +131,7 @@
 ///                                be reset on headings below `max-reset-level`.
 ///                                And if `link-to` is set to `last-heading`
 ///                                higher levels will not be displayed in the numbering.
+/// - tags (dictionary):
 /// -> dictionary
 #let default-theorems(
   group: LEMMIFY-DEFAULT-THEOREM-GROUP,
@@ -122,7 +144,8 @@
   link-to: last-heading,
   proof-link-to: none,
   subnumbering: "1",
-  max-reset-level: none
+  max-reset-level: none,
+  tags: (:),
 ) = {
   assert-type(group, "group", str)
   assert-type(proof-group, "proof-group", str)
@@ -150,7 +173,8 @@
       numbering: numbering,
       subnumbering: subnumbering,
       style: style,
-      link-to: link-to
+      link-to: link-to,
+      tags: tags,
     ))
   }
 
@@ -160,7 +184,8 @@
     numbering: proof-numbering,
     subnumbering: subnumbering,
     style: proof-style,
-    link-to: proof-link-to
+    link-to: proof-link-to,
+    tags: tags,
   ))
 
   let rules = concat-fold((
