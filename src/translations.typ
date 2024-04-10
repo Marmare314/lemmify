@@ -1,13 +1,13 @@
 #let translations = (
-  "en": (
-    "theorem": "Theorem",
-    "lemma": "Lemma",
-    "corollary": "Corollary",
-    "remark": "Remark",
-    "proposition": "Proposition",
-    "example": "Example",
-    "definition": "Definition",
-    "proof": "Proof"
+  "ca": (
+    "theorem": "Teorema",
+    "lemma": "Lema",
+    "corollary": "Corol·lari",
+    "remark": "Observació",
+    "proposition": "Proposició",
+    "example": "Exemple",
+    "definition": "Definició",
+    "proof": "Demostració"
   ),
   "de": (
     "theorem": "Satz",
@@ -18,6 +18,16 @@
     "example": "Beispiel",
     "definition": "Definition",
     "proof": "Beweis"
+  ),
+  "en": (
+    "theorem": "Theorem",
+    "lemma": "Lemma",
+    "corollary": "Corollary",
+    "remark": "Remark",
+    "proposition": "Proposition",
+    "example": "Example",
+    "definition": "Definition",
+    "proof": "Proof"
   ),
   "fr": (
     "theorem": "Théorème",
