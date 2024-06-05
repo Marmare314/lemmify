@@ -58,5 +58,15 @@
     "example": "Пример",
     "definition": "Определение",
     "proof": "Доказательство"
+  ),
+  "es": (
+    "theorem": "Teorema",
+    "lemma": "Lema",
+    "corollary": "Corolario",
+    "remark": "Observación",
+    "proposition": "Proposición",
+    "example": "Ejemplo",
+    "definition": "Definición",
+    "proof": "Demostración"
   )
 )
