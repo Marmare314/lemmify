@@ -78,5 +78,15 @@
     "example": "Ejemplo",
     "definition": "Definición",
     "proof": "Demostración"
+  ),
+  "pt": (
+    "theorem": "Teorema",
+    "lemma": "Lema",
+    "corollary": "Corolário",
+    "remark": "Observação",
+    "proposition": "Proposição",
+    "example": "Exemplo",
+    "definition": "Definição",
+    "proof": "Demonstração"
   )
 )
