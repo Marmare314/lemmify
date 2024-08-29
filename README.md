@@ -293,6 +293,8 @@ are missing features, feel free to open an issue on
 
 - Version 0.1.6
   - Add Portuguese translation ([@PgBiel](https://github.com/PgBiel))
+  - Add Catalan translation ([@Eloitor](https://github.com/Eloitor))
+  - Add Spanish translation ([@mismorgano](https://github.com/mismorgano))
   - Remove extra space before empty supplements ([@PgBiel](https://github.com/PgBiel))
   - Use ref-styling parameter of default-theorems
 
