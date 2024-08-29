@@ -122,7 +122,8 @@
     group,
     subgroup-map,
     thm-styling: thm-styling,
-    thm-numbering: thm-numbering
+    thm-numbering: thm-numbering,
+    ref-styling: ref-styling
   )
 
   let (rules: rules-proof, proof) = new-theorems(
