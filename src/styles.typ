@@ -93,6 +93,7 @@
 // Basic theorem reference style:
 // @thm -> thm-type n
 // @thm[X] -> X n
+// @thm[] -> n
 // where n is the numbering specified
 // by the numbering function
 #let thm-ref-style-simple(
@@ -105,10 +106,17 @@
     message: "cannot reference theorem without numbering"
   )
 
-  if ref.citation.supplement != none {
+  let supplement = if ref.citation.supplement != none {
     ref.citation.supplement
   } else {
     thm-type
   }
-  " " + thm-numbering(ref.element)
+
+  supplement
+
+  if supplement != [] {
+    " "
+  }
+  
+  thm-numbering(ref.element)
 }])
