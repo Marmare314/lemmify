@@ -41,6 +41,8 @@
   number,
   body
 ) = block(width: 100%, breakable: true)[#{
+  set align(left)
+
   strong(thm-type) + " "
   if number != none {
     strong(number) + " "
@@ -60,6 +62,8 @@
   number,
   body
 ) = block(width: 100%, breakable: true)[#{
+  set align(left)
+
   if number != none {
     strong(number) + " "
   }
@@ -79,6 +83,8 @@
   number,
   body
 ) = block(width: 100%, breakable: true)[#{
+  set align(left)
+
   strong(thm-type) + " "
   if number != none {
     strong(number) + " "

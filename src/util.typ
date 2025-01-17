@@ -65,11 +65,11 @@
 // Utility function to display a counter
 // at the given position.
 #let display-heading-counter-at(loc, max-heading-level) = {
-  let locations = query(selector(heading).before(loc), loc)
+  let locations = query(selector(heading).before(loc))
   if locations.len() == 0 {
     [0]
   } else {
-    let numb = query(selector(heading).before(loc), loc).last().numbering
+    let numb = query(selector(heading).before(loc)).last().numbering
     if numb != none {
       let c = counter(heading).at(loc)
       if max-heading-level != none and c.len() > max-heading-level {
