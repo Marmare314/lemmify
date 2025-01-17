@@ -291,6 +291,10 @@ are missing features, feel free to open an issue on
 
 ## Changelog
 
+- Version 0.1.7
+  - Add Chinese translation ([@Roseleaves](https://github.com/Roseleaves))
+  - Adapt lemmify to typst version 0.12.0 ([@TabError](https://github.com/TabError))
+
 - Version 0.1.6
   - Add Portuguese translation ([@PgBiel](https://github.com/PgBiel))
   - Add Catalan translation ([@Eloitor](https://github.com/Eloitor))
