@@ -13,7 +13,7 @@ To get started with Lemmify, follow these steps:
 
 1. Import the Lemmify library:
 ```typst
-#import "@preview/lemmify:0.1.6": *
+#import "@preview/lemmify:0.1.7": *
 ```
 
 2. Define the default styling for a few default theorem types:
@@ -144,7 +144,7 @@ To specify parameters of the [styling](#styling-parameters) functions the `.with
 ## Example
 
 ```typst
-#import "@preview/lemmify:0.1.6": *
+#import "@preview/lemmify:0.1.7": *
 
 #let my-thm-style(
   thm-type, name, number, body
