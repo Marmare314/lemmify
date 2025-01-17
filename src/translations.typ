@@ -88,5 +88,15 @@
     "example": "Exemplo",
     "definition": "Definição",
     "proof": "Demonstração"
+  ),
+  "zh": (
+    "theorem": "定理",
+    "lemma": "引理",
+    "corollary": "推论",
+    "remark": "备注",
+    "proposition": "命题",
+    "example": "例子",
+    "definition": "定义",
+    "proof": "证明"
   )
 )
