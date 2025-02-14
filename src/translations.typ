@@ -9,6 +9,16 @@
     "definition": "Definició",
     "proof": "Demostració"
   ),
+  "cs": (
+    "theorem": "Věta",
+    "lemma": "Lemma",
+    "corollary": "Důsledek",
+    "remark": "Pozorování",
+    "proposition": "Tvrzení",
+    "example": "Příklad",
+    "definition": "Definice",
+    "proof": "Důkaz"
+  ),
   "de": (
     "theorem": "Satz",
     "lemma": "Lemma",
