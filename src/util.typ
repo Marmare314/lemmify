@@ -53,7 +53,7 @@
       ref-styling(it)
     } else if subgroups == refd-subgroup {
       ref-styling(it)
-    } else if type(subgroups) == "array" and subgroups.contains(refd-subgroup) {
+    } else if type(subgroups) == array and subgroups.contains(refd-subgroup) {
       ref-styling(it)
     } else {
       it
