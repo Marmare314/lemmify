@@ -39,6 +39,16 @@
     "definition": "Definition",
     "proof": "Proof"
   ),
+  "fi": (
+    "theorem": "Lause",
+    "lemma": "Lemma",
+    "corollary": "Seuraus",
+    "remark": "Huomautus",
+    "proposition": "Väite",
+    "example": "Esimerkki",
+    "definition": "Määritelmä",
+    "proof": "Todistus"
+  ),
   "fr": (
     "theorem": "Théorème",
     "lemma": "Lemme",
