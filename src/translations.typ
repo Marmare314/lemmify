@@ -79,6 +79,16 @@
     "definition": "Definitie",
     "proof": "Bewijs"
   ),
+  "pl": (
+    "theorem": "Twierdzenie",
+    "lemma": "Lemat",
+    "corollary": "Wniosek",
+    "remark": "Uwaga",
+    "proposition": "Stwierdzenie",
+    "example": "Przykład",
+    "definition": "Definicja",
+    "proof": "Dowód"
+  ),
   "ru": (
     "theorem": "Теорема",
     "lemma": "Лемма",
